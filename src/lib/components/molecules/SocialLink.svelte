@@ -30,7 +30,7 @@
 	</span>
 	<span class="flex min-w-0 flex-1 flex-col gap-0.5">
 		<span class="font-display text-[clamp(2rem,1.5rem+2vw,2.75rem)] leading-none tracking-wide uppercase">{social.label}</span>
-		<span class="truncate text-[15px] {dark ? 'text-background/85' : 'text-muted'}">{social.handle}</span>
+		<span class="{social.url.startsWith('mailto:') ? 'break-all' : 'truncate'} text-[15px] {dark ? 'text-background/85' : 'text-muted'}">{social.handle}</span>
 	</span>
 	<svg aria-hidden="true" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" class="shrink-0 {dark ? 'text-highlight' : 'text-primary'}" stroke-width="3" stroke-linecap="square"
 		><path d="M5 12h14M13 6l6 6-6 6" /></svg

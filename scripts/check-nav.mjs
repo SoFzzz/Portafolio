@@ -107,6 +107,17 @@ try {
 	await c.sleep(800);
 	ok(!(await path()).includes('proyectos'), 'atrás → inicio');
 
+	// 4c. El correo se muestra completo en Contacto
+	for (const [w, h] of [[1440, 900], [390, 844]]) {
+		await c.send('Emulation.setDeviceMetricsOverride', { width: w, height: h, deviceScaleFactor: 1, mobile: w < 768 });
+		await goto(base + 'contacto/');
+		const mail = await c.ev(() => {
+			const el = document.querySelector('a[href^="mailto:"] .flex-col > span:last-child');
+			return { text: el.textContent.trim(), full: el.scrollWidth <= el.clientWidth };
+		});
+		ok(mail.full && mail.text === 'gonzalezambranopaula840@gmail.com', `${w}px correo completo en Contacto ("${mail.text}")`);
+	}
+
 	// 5. Móvil
 	await c.send('Emulation.setDeviceMetricsOverride', { width: 375, height: 812, deviceScaleFactor: 1, mobile: true });
 	for (const r of ROUTES) {
