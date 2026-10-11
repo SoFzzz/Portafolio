@@ -1,0 +1,243 @@
+@import 'tailwindcss';
+
+/* ---------- Tokens del design system (ver docs/PLAN-PORTAFOLIO.md §5) ---------- */
+@theme {
+	/* Paleta cálida: rojo, naranja, amarillo, casi negro y gris claro */
+	--color-text: #0d0000;
+	--color-background: #f2f2f2;
+	--color-primary: #bf2424;
+	--color-secondary: #0d0000;
+	--color-accent: #f29544;
+	--color-highlight: #f2d479;
+	--color-surface: #ffffff;
+	--color-chip: color-mix(in oklab, var(--color-highlight) 45%, var(--color-background));
+	--color-muted: color-mix(in oklab, var(--color-text) 65%, var(--color-background));
+
+	--font-display: 'Anton', Impact, sans-serif;
+	--font-sans: 'Inter Variable', system-ui, sans-serif;
+
+	--breakpoint-sm: 40rem;
+	--breakpoint-md: 48rem;
+	--breakpoint-lg: 64rem;
+	--breakpoint-xl: 80rem;
+
+	--ease-snap: cubic-bezier(0.7, 0, 0.2, 1);
+	--ease-out-expo: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+:root {
+	--skew: -2deg;
+	color-scheme: light;
+}
+@media (min-width: 48rem) {
+	:root {
+		--skew: -4deg;
+	}
+}
+@media (min-width: 64rem) {
+	:root {
+		--skew: -8deg;
+	}
+}
+
+/* Estilos base dentro de @layer para no pisar las utilidades de Tailwind */
+@layer base {
+	html {
+		background: var(--color-background);
+		color: var(--color-text);
+		font-family: var(--font-sans);
+		scroll-behavior: smooth;
+	}
+	body {
+		margin: 0;
+		min-height: 100dvh;
+		overflow-x: hidden;
+	}
+	:focus-visible {
+		outline: 3px solid var(--color-accent);
+		outline-offset: 3px;
+		box-shadow: 0 0 0 3px var(--color-primary);
+	}
+}
+
+/* ---------- Fondo vivo ---------- */
+@keyframes pf-marquee {
+	from { transform: translateX(0); }
+	to { transform: translateX(-50%); }
+}
+@keyframes pf-stripes {
+	from { background-position: 0 0; }
+	to { background-position: 180px 0; }
+}
+@keyframes pf-stripes-fast {
+	from { background-position: 0 0; }
+	to { background-position: 120px 0; }
+}
+@keyframes pf-float {
+	from { transform: translateY(0) rotate(-1.5deg); }
+	to { transform: translateY(-18px) rotate(1.5deg); }
+}
+/* Siluetas: entrada y movimientos en bucle */
+@keyframes pf-enter {
+	from { opacity: 0; transform: translateX(60px); }
+	to { opacity: 1; transform: translateX(0); }
+}
+@keyframes pf-sway {
+	from { transform: rotate(-2.5deg); }
+	to { transform: rotate(2.5deg); }
+}
+@keyframes pf-breathe {
+	from { transform: scale(1) translateY(0); }
+	to { transform: scale(1.025) translateY(-6px); }
+}
+@keyframes pf-run {
+	from { transform: translateX(-46vw); }
+	to { transform: translateX(104vw); }
+}
+@keyframes pf-bob {
+	from { transform: translateY(0); }
+	to { transform: translateY(-1.4vh); }
+}
+.pf-enter { animation: pf-enter 900ms var(--ease-out-expo) 500ms both; }
+.pf-sway { animation: pf-sway 6s ease-in-out infinite alternate; }
+.pf-breathe { animation: pf-breathe 4.5s ease-in-out infinite alternate; }
+.pf-run { animation: pf-run 38s linear infinite; }
+.pf-bob { animation: pf-bob 0.5s ease-in-out infinite alternate; }
+.pf-marquee { animation: pf-marquee 45s linear infinite; }
+.pf-stripes { animation: pf-stripes 9s linear infinite; }
+.pf-stripes-fast { animation: pf-stripes-fast 5s linear infinite; }
+.pf-float { animation: pf-float 5s ease-in-out infinite alternate; }
+
+/* ---------- Silueta: color y opacidad (móvil / escritorio) ---------- */
+.sil-tone {
+	opacity: var(--o-sm);
+	background: var(--c-sm);
+}
+@media (min-width: 64rem) {
+	.sil-tone {
+		opacity: var(--o);
+		background: var(--c);
+	}
+}
+
+/* ---------- Mar (Sobre mí): olas en silueta que se deslizan y brillos que titilan ---------- */
+@keyframes pf-mscroll {
+	to {
+		-webkit-mask-position-x: calc(var(--tile) * -1);
+		mask-position-x: calc(var(--tile) * -1);
+	}
+}
+@keyframes pf-glint {
+	0%, 100% { opacity: 0; transform: scaleX(0.3); }
+	50% { opacity: 0.85; transform: scaleX(1); }
+}
+.pf-mscroll { animation: pf-mscroll var(--dur) linear infinite; }
+.pf-wave-rev { animation-direction: reverse; }
+.pf-glint { opacity: 0; animation: pf-glint ease-in-out infinite; }
+
+/* ---------- Estrellas (Proyectos) ---------- */
+.pf-star {
+	position: absolute;
+	top: 0;
+	clip-path: polygon(50% 0, 61% 39%, 100% 50%, 61% 61%, 50% 100%, 39% 61%, 0 50%, 39% 39%);
+}
+@keyframes pf-fall {
+	0% { transform: translate3d(0, -8vh, 0) rotate(0deg); opacity: 0; }
+	10%, 85% { opacity: var(--op); }
+	100% { transform: translate3d(var(--drift), 108vh, 0) rotate(220deg); opacity: 0; }
+}
+@keyframes pf-twinkle {
+	0%, 100% { transform: scale(0.35) rotate(0deg); opacity: 0.08; }
+	50% { transform: scale(1) rotate(45deg); opacity: var(--op); }
+}
+.pf-fall { animation: pf-fall linear infinite; }
+.pf-twinkle { animation: pf-twinkle ease-in-out infinite; }
+
+/* ---------- Metro (Contacto): paisaje que pasa, postes y destellos ---------- */
+@keyframes pf-scroll {
+	to { background-position-x: calc(var(--tile) * -1); }
+}
+@keyframes pf-tunnel {
+	0%, 58% { transform: translateX(-130%); opacity: 0; }
+	60% { opacity: 1; }
+	78% { transform: translateX(260%); opacity: 1; }
+	80%, 100% { transform: translateX(260%); opacity: 0; }
+}
+@keyframes pf-glare {
+	0%, 84% { opacity: 0; }
+	88% { opacity: 0.55; }
+	100% { opacity: 0; }
+}
+@keyframes pf-lean {
+	from { transform: rotate(-0.35deg); }
+	to { transform: rotate(0.35deg); }
+}
+@keyframes pf-rattle {
+	0% { transform: translateY(0); }
+	25% { transform: translateY(-1.5px); }
+	50% { transform: translateY(1px); }
+	75% { transform: translateY(-0.5px); }
+	100% { transform: translateY(0); }
+}
+.pf-scroll { animation: pf-scroll var(--dur) linear infinite; }
+.pf-tunnel { opacity: 0; animation: pf-tunnel 9s linear infinite; }
+.pf-glare { opacity: 0; animation: pf-glare 13s ease-in-out infinite; }
+.pf-lean { animation: pf-lean 5s ease-in-out infinite alternate; }
+.pf-rattle { animation: pf-rattle 0.32s linear infinite; }
+
+/* ---------- Movimiento reducido ----------
+   data-motion lo fija un script en app.html (preferencia del sistema o interruptor del sitio). */
+html[data-motion='off'] .pf-marquee,
+html[data-motion='off'] .pf-stripes,
+html[data-motion='off'] .pf-stripes-fast,
+html[data-motion='off'] .pf-float,
+html[data-motion='off'] .pf-enter,
+html[data-motion='off'] .pf-sway,
+html[data-motion='off'] .pf-breathe,
+html[data-motion='off'] .pf-run,
+html[data-motion='off'] .pf-bob,
+html[data-motion='off'] .pf-scroll,
+html[data-motion='off'] .pf-tunnel,
+html[data-motion='off'] .pf-glare,
+html[data-motion='off'] .pf-lean,
+html[data-motion='off'] .pf-rattle,
+html[data-motion='off'] .pf-twinkle,
+html[data-motion='off'] .pf-fall,
+html[data-motion='off'] .pf-mscroll,
+html[data-motion='off'] .pf-glint {
+	animation: none;
+}
+html[data-motion='off'] .pf-glint {
+	opacity: 0.5;
+}
+html[data-motion='off'] {
+	scroll-behavior: auto;
+}
+/* Sin animación: las estrellas quedan en una posición fija repartida */
+html[data-motion='off'] .pf-fall {
+	transform: translateY(var(--y0));
+	opacity: var(--op);
+}
+html[data-motion='off'] .pf-twinkle {
+	opacity: var(--op);
+}
+html[data-motion='off'] *,
+html[data-motion='off'] *::before,
+html[data-motion='off'] *::after {
+	transition-duration: 0.01ms !important;
+}
+
+/* Utilidad: salto a contenido */
+.skip-link {
+	position: fixed;
+	left: 12px;
+	top: -80px;
+	z-index: 100;
+	padding: 12px 18px;
+	background: var(--color-primary);
+	color: #fff;
+	font-weight: 600;
+}
+.skip-link:focus {
+	top: 12px;
+}
