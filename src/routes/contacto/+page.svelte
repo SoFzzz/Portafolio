@@ -8,7 +8,7 @@
 	title="Contacto"
 	path="/contacto/"
 	description="Escríbeme por correo o LinkedIn, o revisa mi código en GitHub."
-	intro="Escríbeme o revisa mi código. Respondo por LinkedIn y el código está en GitHub."
+	intro="Escríbeme por correo o LinkedIn, o revisa mi código en GitHub."
 >
 	<ul class="m-0 flex max-w-md list-none flex-col gap-6 p-0 pr-2">
 		{#each socials as social, i}

@@ -11,7 +11,7 @@
 	rel="noopener noreferrer"
 	class="group relative flex min-h-20 items-center gap-5 px-6 py-3 shadow-[6px_6px_0_var(--color-secondary)] transition-transform duration-200 ease-out-expo hover:translate-x-2 md:min-h-24 md:gap-6 md:px-7 md:shadow-[8px_8px_0_var(--color-secondary)]
 		{dark ? 'bg-primary text-white' : 'bg-surface text-primary'}"
-	style="transform-origin: left; --tw-skew: var(--skew)"
+	style="transform-origin: left"
 >
 	<span class="flex size-10 shrink-0 items-center justify-center {dark ? 'text-highlight' : 'text-primary'}">
 		{#if social.id === 'github'}
@@ -35,5 +35,5 @@
 	<svg aria-hidden="true" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" class="shrink-0 {dark ? 'text-highlight' : 'text-primary'}" stroke-width="3" stroke-linecap="square"
 		><path d="M5 12h14M13 6l6 6-6 6" /></svg
 	>
-	<span class="sr-only">(se abre en una pestaña nueva)</span>
+	{#if !social.url.startsWith('mailto:')}<span class="sr-only">(se abre en una pestaña nueva)</span>{/if}
 </a>

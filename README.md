@@ -22,6 +22,7 @@ npm run build    # sitio estático en /build
 | Proyectos | `src/lib/data/projects.ts` |
 | Videojuego | `src/lib/data/game.ts` |
 | Redes | `src/lib/data/socials.ts` |
+| Capturas y foto | `image/projects/` + `npm run images` → `static/` |
 | Menú y palabra del fondo animado | `src/lib/data/nav.ts` |
 
 Los textos entre `[corchetes]` son marcadores pendientes.
