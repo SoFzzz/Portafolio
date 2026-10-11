@@ -24,7 +24,6 @@
 	{href}
 	{onfocus}
 	{onmouseenter}
-	aria-current={active ? 'true' : undefined}
 	class="group relative inline-flex min-h-[3.25rem] items-center px-6 outline-none md:px-9"
 	style="transform: skewX(var(--skew)); margin-left: calc({offset}px * var(--stagger, 0))"
 >

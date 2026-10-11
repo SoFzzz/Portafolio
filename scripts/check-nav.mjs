@@ -41,8 +41,8 @@ try {
 	await c.ev(() => document.querySelector('nav a[href*="proyectos"]').click());
 	const t0 = Date.now();
 	let ms = 0;
-	for (let i = 0; i < 80; i++) {
-		await c.sleep(50);
+	for (let i = 0; i < 200; i++) {
+		await c.sleep(10);
 		const hidden = await c.ev(
 			() => getComputedStyle(document.querySelector('[aria-hidden=true].z-50')).visibility === 'hidden'
 		);

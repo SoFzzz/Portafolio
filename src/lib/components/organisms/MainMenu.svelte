@@ -18,6 +18,10 @@
 
 	function onKey(e: KeyboardEvent) {
 		if (e.ctrlKey || e.metaKey || e.altKey) return;
+		if (e.target instanceof HTMLElement && e.target.closest('input, textarea, select, [contenteditable]')) return;
+		// W/S y flechas solo cuando el foco está en el cuerpo o en el menú
+		const a = document.activeElement;
+		if (e.key !== 'Enter' && a && a !== document.body && !a.closest('nav')) return;
 		switch (e.key) {
 			case 'ArrowDown':
 			case 's':

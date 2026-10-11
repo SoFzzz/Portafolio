@@ -20,7 +20,7 @@
 	} = $props();
 
 	function onKey(e: KeyboardEvent) {
-		if (e.key === 'Escape' || e.key === 'Backspace') {
+		if (e.key === 'Escape') {
 			const t = e.target as HTMLElement | null;
 			if (t && /^(input|textarea|select)$/i.test(t.tagName)) return;
 			e.preventDefault();

@@ -10,9 +10,9 @@ export type NavItem = {
 
 /** Opciones del menú principal. */
 export const menuItems: NavItem[] = [
-	{ id: 'sobre-mi', label: 'Sobre mí', href: '/sobre-mi', scene: 'sea' },
-	{ id: 'proyectos', label: 'Proyectos', href: '/proyectos', scene: 'stars' }, // incluye el videojuego
-	{ id: 'contacto', label: 'Contacto', href: '/contacto', scene: 'metro' }
+	{ id: 'sobre-mi', label: 'Sobre mí', href: '/sobre-mi/', scene: 'sea' },
+	{ id: 'proyectos', label: 'Proyectos', href: '/proyectos/', scene: 'stars' }, // incluye el videojuego
+	{ id: 'contacto', label: 'Contacto', href: '/contacto/', scene: 'metro' }
 ];
 
 /** Todas las rutas (el menú más las que no aparecen en él). */
@@ -22,7 +22,7 @@ const routes: NavItem[] = [
 	{
 		id: 'juego',
 		label: 'Videojuego',
-		href: '/proyectos/descending-to-my-heaven',
+		href: '/proyectos/descending-to-my-heaven/',
 		scene: 'plain'
 	}
 ];
@@ -30,5 +30,5 @@ const routes: NavItem[] = [
 /** Busca la entrada de una ruta (sin el base path). */
 export function findNav(pathname: string): NavItem {
 	const clean = pathname.replace(/\/+$/, '') || '/';
-	return routes.find((n) => n.href === clean) ?? routes[0];
+	return routes.find((n) => n.href.replace(/\/+$/, '') === clean) ?? routes[0];
 }

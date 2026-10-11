@@ -40,43 +40,46 @@ export async function runTransition(label: string, swap: () => Promise<unknown>)
 	}
 	const { root, panels, label: labelEl } = curtain;
 	labelEl.textContent = label;
-	root.style.visibility = 'visible';
 
-	if (prefersReducedMotion()) {
-		utils.set(panels, { translateX: '0%' });
-		await play(root, { opacity: [0, 1], duration: 150, ease: 'linear' });
+	try {
+		root.style.visibility = 'visible';
+
+		if (prefersReducedMotion()) {
+			utils.set(panels, { translateX: '0%' });
+			await play(root, { opacity: [0, 1], duration: 120, ease: 'linear' });
+			await swap();
+			await play(root, { opacity: [1, 0], duration: 120, ease: 'linear' });
+			return;
+		}
+
+		utils.set(root, { opacity: 1 });
+		utils.set(labelEl, { opacity: 0, translateX: -40 });
+
+		// 1) Los paneles entran en diagonal
+		await play(panels, {
+			translateX: ['-130%', '0%'],
+			duration: 260,
+			delay: stagger(60),
+			ease: 'inOutQuart'
+		});
+		animate(labelEl, { opacity: [0, 1], translateX: [-40, 0], duration: 260, ease: 'outExpo' });
+
+		// 2) Cambio de ruta bajo la cortina
 		await swap();
-		await play(root, { opacity: [1, 0], duration: 150, ease: 'linear' });
+		await wait(80);
+
+		// 3) Los paneles salen
+		animate(labelEl, { opacity: [1, 0], duration: 100, ease: 'linear' }); // en paralelo con la salida de los paneles
+		await play(panels, {
+			translateX: ['0%', '130%'],
+			duration: 260,
+			delay: stagger(50),
+			ease: 'inOutQuart'
+		});
+	} finally {
 		root.style.visibility = 'hidden';
+		utils.set(root, { opacity: 0 });
+		utils.set(labelEl, { opacity: 0 });
 		utils.set(panels, { translateX: '-130%' });
-		return;
 	}
-
-	utils.set(root, { opacity: 1 });
-	utils.set(labelEl, { opacity: 0, translateX: -40 });
-
-	// 1) Los paneles entran en diagonal
-	await play(panels, {
-		translateX: ['-130%', '0%'],
-		duration: 420,
-		delay: stagger(90),
-		ease: 'inOutQuart'
-	});
-	animate(labelEl, { opacity: [0, 1], translateX: [-40, 0], duration: 260, ease: 'outExpo' });
-
-	// 2) Cambio de ruta bajo la cortina
-	await swap();
-	await wait(260);
-
-	// 3) Los paneles salen
-	await play(labelEl, { opacity: [1, 0], duration: 140, ease: 'linear' });
-	await play(panels, {
-		translateX: ['0%', '130%'],
-		duration: 420,
-		delay: stagger(70),
-		ease: 'inOutQuart'
-	});
-
-	root.style.visibility = 'hidden';
-	utils.set(panels, { translateX: '-130%' });
 }

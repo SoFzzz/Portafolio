@@ -21,7 +21,7 @@
 
 	// Toda navegación interna (enlaces, botón atrás, goto) pasa por la cortina.
 	beforeNavigate((nav) => {
-		if (busy || !nav.to || nav.willUnload || nav.type === 'leave') return;
+		if (busy || !nav.to || nav.willUnload || nav.type === 'leave' || nav.type === 'popstate') return;
 		const to = nav.to.url;
 		if (to.pathname === page.url.pathname) return;
 
