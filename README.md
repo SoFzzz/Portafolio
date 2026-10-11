@@ -1,6 +1,6 @@
 # Portafolio — Paula Sofía González
 
-Portafolio web inspirado en la **estructura de interacción** de los menús de Atlus (Persona 3 Reload, Metaphor: ReFantazio). No usa arte, fuentes ni audio de Atlus.
+Portafolio web inspirado en la **estructura de interacción** de los menús de Atlus.
 
 Plan, navegación y design system: [`docs/PLAN-PORTAFOLIO.md`](docs/PLAN-PORTAFOLIO.md).
 
