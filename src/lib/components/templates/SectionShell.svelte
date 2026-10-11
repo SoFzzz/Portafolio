@@ -21,7 +21,7 @@
 		path: string;
 		intro?: string;
 		backHref?: string;
-		/** Contenido opcional a la derecha del título (en escritorio), para equilibrar el peso visual. */
+		/** Contenido opcional a la derecha del título (solo desde lg; por debajo se oculta), para equilibrar el peso visual. */
 		aside?: Snippet;
 		children: Snippet;
 	} = $props();
@@ -59,7 +59,7 @@
 			{/if}
 		</div>
 		{#if aside}
-			<div class="min-w-0 lg:w-[46%] lg:max-w-[40rem] xl:w-[52%] xl:max-w-[52rem]">{@render aside()}</div>
+			<div class="min-w-0 max-lg:hidden lg:w-[46%] lg:max-w-[40rem] xl:w-[52%] xl:max-w-[52rem]">{@render aside()}</div>
 		{/if}
 	</div>
 

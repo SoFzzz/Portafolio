@@ -118,6 +118,21 @@ try {
 		ok(mail.full && mail.text === 'gonzalezambranopaula840@gmail.com', `${w}px correo completo en Contacto ("${mail.text}")`);
 	}
 
+	// 4d. Sobre mí en móvil: la presentación (foto) va antes que Habilidades; solo hay un bloque visible
+	for (const [w, h] of [[390, 844], [1440, 900]]) {
+		await c.send('Emulation.setDeviceMetricsOverride', { width: w, height: h, deviceScaleFactor: 1, mobile: w < 768 });
+		await goto(base + 'sobre-mi/');
+		const r = await c.ev(() => {
+			const skills = [...document.querySelectorAll('h2')].filter(
+				(e) => e.textContent.trim() === 'Habilidades' && e.getClientRects().length > 0
+			);
+			const photo = [...document.querySelectorAll('img')].find((i) => (i.alt || '').startsWith('Retrato'));
+			return { n: skills.length, skillsTop: skills[0]?.getBoundingClientRect().top + scrollY, photoTop: photo.getBoundingClientRect().top + scrollY };
+		});
+		ok(r.n === 1, `${w}px /sobre-mi/ un solo bloque Habilidades visible (${r.n})`);
+		if (w < 768) ok(r.skillsTop > r.photoTop, `${w}px /sobre-mi/ Habilidades (${Math.round(r.skillsTop)}) después de la foto (${Math.round(r.photoTop)})`);
+	}
+
 	// 5. Móvil
 	await c.send('Emulation.setDeviceMetricsOverride', { width: 375, height: 812, deviceScaleFactor: 1, mobile: true });
 	for (const r of ROUTES) {

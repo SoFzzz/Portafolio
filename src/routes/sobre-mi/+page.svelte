@@ -6,26 +6,30 @@
 	import { profile } from '$lib/data/profile';
 </script>
 
+<!-- Habilidades: se pinta en dos sitios (con display:none en el que no se ve): arriba a la derecha desde lg, y entre la bio y Formación por debajo de lg -->
+{#snippet skills()}
+	<h2 class="mb-3 font-display text-2xl tracking-wider text-primary uppercase">Habilidades</h2>
+	<div class="grid grid-cols-1 gap-3 sm:grid-cols-2 xl:grid-cols-3">
+		{#each profile.skills as group}
+			<section class="flex flex-col gap-2 bg-surface p-3.5 shadow-[4px_4px_0_var(--color-secondary)]">
+				<h3 class="text-[11px] font-semibold tracking-[0.14em] text-secondary uppercase">{group.group}</h3>
+				<ul class="m-0 flex list-none flex-wrap gap-1.5 p-0">
+					{#each group.items as item}
+						<li><Tag size="sm">{item}</Tag></li>
+					{/each}
+				</ul>
+			</section>
+		{/each}
+	</div>
+{/snippet}
+
 <SectionShell
 	title="Sobre mí"
 	path="/sobre-mi/"
 	description="Quién soy, qué tecnologías manejo y mi formación en Ingeniería de Software en la Universidad Cooperativa de Colombia."
 >
-	<!-- Habilidades: tarjetas compactas arriba a la derecha, junto al título -->
 	{#snippet aside()}
-		<h2 class="mb-3 font-display text-2xl tracking-wider text-primary uppercase">Habilidades</h2>
-		<div class="grid grid-cols-1 gap-3 sm:grid-cols-2 xl:grid-cols-3">
-			{#each profile.skills as group}
-				<section class="flex flex-col gap-2 bg-surface p-3.5 shadow-[4px_4px_0_var(--color-secondary)]">
-					<h3 class="text-[11px] font-semibold tracking-[0.14em] text-secondary uppercase">{group.group}</h3>
-					<ul class="m-0 flex list-none flex-wrap gap-1.5 p-0">
-						{#each group.items as item}
-							<li><Tag size="sm">{item}</Tag></li>
-						{/each}
-					</ul>
-				</section>
-			{/each}
-		</div>
+		<div class="hidden lg:block">{@render skills()}</div>
 	{/snippet}
 
 	<!-- Columna de lectura a la izquierda; la derecha queda libre para la silueta -->
@@ -46,6 +50,8 @@
 				<p class="m-0 text-base leading-relaxed sm:text-lg">{paragraph}</p>
 			{/each}
 		</div>
+
+		<div class="lg:hidden">{@render skills()}</div>
 
 		<div class="flex flex-col gap-3">
 			<h2 class="font-display text-[1.75rem] tracking-wider text-primary uppercase">Formación</h2>
