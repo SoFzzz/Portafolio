@@ -36,8 +36,8 @@
 				move(-1);
 				break;
 			case 'Enter':
-				// Si el foco ya está en un enlace, el navegador lo activa solo.
-				if (!(document.activeElement instanceof HTMLAnchorElement)) {
+				// Solo si nada tiene el foco; en un enlace o botón, el navegador lo activa solo.
+				if (!a || a === document.body) {
 					e.preventDefault();
 					goto(base + navItems[active].href);
 				}

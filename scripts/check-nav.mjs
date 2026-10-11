@@ -75,6 +75,24 @@ try {
 	await c.sleep(1800);
 	ok(!(await path()).includes('sobre-mi'), 'Escape vuelve al inicio');
 
+	// 4a. Enter en el botón de animaciones no navega y alterna data-motion
+	await goto(base);
+	const motion0 = await c.ev(() => document.documentElement.dataset.motion);
+	await c.ev(() => document.querySelector('button[aria-pressed]').focus());
+	for (const type of ['keyDown', 'keyUp']) {
+		await c.send('Input.dispatchKeyEvent', {
+			type,
+			key: 'Enter',
+			code: 'Enter',
+			windowsVirtualKeyCode: 13,
+			...(type === 'keyDown' ? { text: '\r' } : {})
+		});
+	}
+	await c.sleep(1500);
+	ok((await path()) === new URL(base).pathname, 'Enter en el botón de animaciones no navega');
+	ok((await c.ev(() => document.documentElement.dataset.motion)) !== motion0, 'Enter en el botón de animaciones alterna data-motion');
+	await c.ev(() => localStorage.setItem('pf-motion', 'on'));
+
 	// 4b. Inicio → Proyectos → detalle → Atrás → Atrás
 	await goto(base);
 	await c.ev(() => document.querySelector('nav a[href*="proyectos"]').click());
