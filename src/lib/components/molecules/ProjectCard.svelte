@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { base } from '$app/paths';
 	import type { Project } from '$lib/data/projects';
 	import Button from '../atoms/Button.svelte';
 	import Tag from '../atoms/Tag.svelte';
@@ -11,16 +12,28 @@
 	class="group flex h-full flex-col bg-surface shadow-[6px_6px_0_var(--color-secondary)] transition-transform duration-200 ease-out-expo hover:-translate-y-1 md:shadow-[8px_8px_0_var(--color-secondary)]"
 >
 	<div
-		role="img"
-		aria-label="Espacio para captura de {project.title}"
-		class="flex h-40 items-end justify-between p-4 [clip-path:polygon(0_0,100%_0,100%_84%,90%_100%,0_100%)] md:h-56 md:p-5"
+		class="relative flex h-48 items-center justify-center p-4 [clip-path:polygon(0_0,100%_0,100%_92%,90%_100%,0_100%)] md:h-56"
 		style="background-color: {c.bg}; background-image: radial-gradient(circle, {c.dot} 1.4px, transparent 2px); background-size: 10px 10px"
 	>
-		<span class="font-display text-lg tracking-widest uppercase md:text-[22px]" style="color: {c.ink}"
-			>[Captura]</span
-		>
+		<img
+			src={base + project.shots[0].src}
+			alt={project.shots[0].alt}
+			width={project.shots[0].width}
+			height={project.shots[0].height}
+			loading="lazy"
+			class="max-h-[85%] max-w-[85%] w-auto object-contain shadow-[5px_5px_0_var(--color-secondary)]"
+		/>
+		{#if project.logo}
+			<img
+				src={base + project.logo.src}
+				alt={project.logo.alt}
+				width={project.logo.width}
+				height={project.logo.height}
+				class="absolute bottom-3 left-3 size-10 object-contain"
+			/>
+		{/if}
 		<span
-			class="px-3 py-1 text-[11px] font-semibold tracking-[0.12em] uppercase md:text-xs"
+			class="absolute right-3 bottom-3 px-3 py-1 text-[11px] font-semibold tracking-[0.12em] uppercase md:text-xs"
 			style="background: {c.chipBg}; color: {c.chipInk}">{project.platform}</span
 		>
 	</div>
@@ -35,13 +48,14 @@
 				<li><Tag>{item}</Tag></li>
 			{/each}
 		</ul>
-		<div class="mt-auto pt-2">
-			<Button href={project.repo} external>
-				Ver repositorio
+		<div class="mt-auto flex flex-wrap gap-3 pt-2">
+			<Button href="{base}/proyectos/{project.slug}/">
+				Ver proyecto
 				<svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" class="text-highlight" stroke-width="3" stroke-linecap="square"
 					><path d="M5 12h14M13 6l6 6-6 6" /></svg
 				>
 			</Button>
+			<Button href={project.repo} external variant="secondary">Repositorio</Button>
 		</div>
 	</div>
 </article>

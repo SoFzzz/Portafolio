@@ -9,7 +9,7 @@ const config = {
 	preprocess: vitePreprocess(),
 	kit: {
 		adapter: adapter({ fallback: '404.html' }),
-		paths: { base },
+		paths: { base, relative: false },
 		prerender: { handleHttpError: 'warn' }
 	}
 };

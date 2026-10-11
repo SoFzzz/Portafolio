@@ -30,5 +30,11 @@ const routes: NavItem[] = [
 /** Busca la entrada de una ruta (sin el base path). */
 export function findNav(pathname: string): NavItem {
 	const clean = pathname.replace(/\/+$/, '') || '/';
-	return routes.find((n) => n.href.replace(/\/+$/, '') === clean) ?? routes[0];
+	const exact = routes.find((n) => n.href.replace(/\/+$/, '') === clean);
+	if (exact) return exact;
+	// Cualquier otra subruta de /proyectos/ (detalle de cada proyecto)
+	if (clean.startsWith('/proyectos/')) {
+		return { id: 'proyecto', label: 'Proyectos', href: clean + '/', scene: 'plain' };
+	}
+	return routes[0];
 }

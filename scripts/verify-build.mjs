@@ -29,7 +29,9 @@ for (const file of pages) {
 	ok(/^https:\/\//.test(meta(/<meta property="og:image" content="([^"]*)"/) ?? ''), `${name} og:image absoluta`);
 	ok((html.match(/<h1[\s>]/g) ?? []).length === 1, `${name} exactamente un <h1>`);
 	ok(!/href="#"/.test(html), `${name} sin href="#"`);
-	ok(!/\[(Captura|Tu foto)/.test(html), `${name} sin placeholders`);
+	// El videojuego conserva marcadores a propósito (contenido pendiente de Paula)
+	const placeholder = name.startsWith('/proyectos/descending-to-my-heaven') ? /\[Tu foto/ : /\[(Captura|Tu foto)/;
+	ok(!placeholder.test(html), `${name} sin placeholders`);
 	for (const tag of html.match(/<img\b[^>]*>/g) ?? []) {
 		const src = /src="([^"]*)"/.exec(tag)?.[1] ?? '';
 		const bien = /\balt=/.test(tag) && /\bwidth=/.test(tag) && /\bheight=/.test(tag);

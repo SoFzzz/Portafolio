@@ -25,13 +25,6 @@
 					style="clip-path: {keyArt}; background-image: radial-gradient(circle, rgba(242,149,68,0.45) 1.5px, transparent 2.1px), linear-gradient(160deg, #0d0000 0%, #4a0f0f 50%, #bf2424 100%); background-size: 11px 11px, 100% 100%"
 				>
 					<span class="font-display text-sm tracking-widest text-background uppercase md:text-[22px]">[Arte clave o video del juego]</span>
-					<button
-						type="button"
-						aria-label="Reproducir video"
-						class="flex size-12 cursor-pointer items-center justify-center bg-accent text-text transition-transform hover:scale-110 [clip-path:polygon(0_0,100%_0,100%_70%,70%_100%,0_100%)] md:size-14"
-					>
-						<svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M7 4v16l13-8z" /></svg>
-					</button>
 				</div>
 			</div>
 
@@ -61,10 +54,12 @@
 				{/each}
 			</dl>
 
-			<div class="flex flex-wrap gap-4">
-				<Button href={game.links.play ?? '#'}>Jugar</Button>
-				<Button href={game.links.repo ?? '#'} variant="secondary">Repositorio</Button>
-			</div>
+			{#if game.links.play || game.links.repo}
+				<div class="flex flex-wrap gap-4">
+					{#if game.links.play}<Button href={game.links.play} external>Jugar</Button>{/if}
+					{#if game.links.repo}<Button href={game.links.repo} variant="secondary" external>Repositorio</Button>{/if}
+				</div>
+			{/if}
 		</div>
 	</div>
 </SectionShell>

@@ -2,7 +2,7 @@
 import { openChrome } from './lib/cdp.mjs';
 
 const base = (process.argv[2] ?? 'http://localhost:4173/').replace(/\/?$/, '/');
-const ROUTES = ['', 'sobre-mi/', 'proyectos/', 'proyectos/descending-to-my-heaven/', 'contacto/'];
+const ROUTES = ['', 'sobre-mi/', 'proyectos/', 'proyectos/descending-to-my-heaven/', 'proyectos/likka-pet/', 'proyectos/wakesync/', 'proyectos/clearread/', 'contacto/'];
 
 let fallos = 0;
 const ok = (cond, msg) => {
@@ -74,6 +74,20 @@ try {
 	await key('Escape');
 	await c.sleep(1800);
 	ok(!(await path()).includes('sobre-mi'), 'Escape vuelve al inicio');
+
+	// 4b. Inicio → Proyectos → detalle → Atrás → Atrás
+	await goto(base);
+	await c.ev(() => document.querySelector('nav a[href*="proyectos"]').click());
+	await c.sleep(1800);
+	await c.ev(() => [...document.querySelectorAll('a')].find((a) => a.textContent.includes('Ver proyecto')).click());
+	await c.sleep(1800);
+	ok((await path()).endsWith('/proyectos/likka-pet/'), 'Ver proyecto → /proyectos/likka-pet/');
+	await c.ev(() => history.back());
+	await c.sleep(800);
+	ok((await path()).endsWith('/proyectos/'), 'atrás → /proyectos/');
+	await c.ev(() => history.back());
+	await c.sleep(800);
+	ok(!(await path()).includes('proyectos'), 'atrás → inicio');
 
 	// 5. Móvil
 	await c.send('Emulation.setDeviceMetricsOverride', { width: 375, height: 812, deviceScaleFactor: 1, mobile: true });
