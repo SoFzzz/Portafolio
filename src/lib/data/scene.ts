@@ -13,7 +13,6 @@
  * anim → cómo se mueve: 'sway' péndulo · 'breathe' respira · 'float' flota · 'run' corre · 'none' quieta
  * from → desde qué ancho se ve ('md' = 768 px, 'lg' = 1024 px); smOpacity la muestra también en móvil.
  *
- * Disponibles sin usar: madoka, rias, symphogear (en la carpeta static/characters/).
  * La de Contacto (banca) la dibuja MetroBackdrop, porque va sentada dentro del vagón.
  */
 export type Silhouette = {

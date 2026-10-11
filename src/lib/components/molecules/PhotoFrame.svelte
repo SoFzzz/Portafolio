@@ -23,10 +23,12 @@
 		aria-label={src ? undefined : 'Espacio para la foto de perfil'}
 	>
 		{#if src}
-			<!-- duotono: foto en grises mezclada sobre el azul -->
+			<!-- duotono: foto en grises mezclada sobre el rojo -->
 			<img
 				{src}
 				{alt}
+				width="440"
+				height="520"
 				class="size-full object-cover mix-blend-screen grayscale contrast-110"
 			/>
 		{:else}

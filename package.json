@@ -11,7 +11,8 @@
 		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
 		"verify": "node scripts/verify-build.mjs",
 		"check:nav": "node scripts/check-nav.mjs",
-		"check:perf": "node scripts/perf-check.mjs"
+		"check:perf": "node scripts/perf-check.mjs",
+		"images": "node scripts/prepare-images.mjs"
 	},
 	"devDependencies": {
 		"@sveltejs/adapter-static": "^3.0.8",
