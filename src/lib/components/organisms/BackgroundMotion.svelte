@@ -15,7 +15,7 @@
 		<!-- franjas muy suaves que se desplazan -->
 		<div
 			class="pf-stripes absolute -inset-[10%] -rotate-[8deg]"
-			style="background-image: repeating-linear-gradient(90deg, rgba(191,36,36,0.05) 0 90px, transparent 90px 180px); background-size: 180px 100%"
+			style="--tile: 180px; --dur: 9s; background-image: repeating-linear-gradient(90deg, rgba(191,36,36,0.05) 0 90px, transparent 90px 180px); background-size: 180px 100%"
 		></div>
 	{:else if scene === 'sea'}
 		<SeaBackdrop />
@@ -34,7 +34,7 @@
 		>
 			<div
 				class="pf-stripes-fast absolute -inset-[20%] -rotate-[8deg]"
-				style="background-image: repeating-linear-gradient(90deg, rgba(242,149,68,0.09) 0 36px, transparent 36px 120px); background-size: 120px 100%"
+				style="--tile: 120px; --dur: 5s; background-image: repeating-linear-gradient(90deg, rgba(242,149,68,0.09) 0 36px, transparent 36px 120px); background-size: 120px 100%"
 			></div>
 		</div>
 	{/if}

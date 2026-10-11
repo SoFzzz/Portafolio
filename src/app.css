@@ -65,14 +65,6 @@
 	from { transform: translateX(0); }
 	to { transform: translateX(-50%); }
 }
-@keyframes pf-stripes {
-	from { background-position: 0 0; }
-	to { background-position: 180px 0; }
-}
-@keyframes pf-stripes-fast {
-	from { background-position: 0 0; }
-	to { background-position: 120px 0; }
-}
 @keyframes pf-float {
 	from { transform: translateY(0) rotate(-1.5deg); }
 	to { transform: translateY(-18px) rotate(1.5deg); }
@@ -104,9 +96,22 @@
 .pf-run { animation: pf-run 38s linear infinite; }
 .pf-bob { animation: pf-bob 0.5s ease-in-out infinite alternate; }
 .pf-marquee { animation: pf-marquee 45s linear infinite; }
-.pf-stripes { animation: pf-stripes 9s linear infinite; }
-.pf-stripes-fast { animation: pf-stripes-fast 5s linear infinite; }
 .pf-float { animation: pf-float 5s ease-in-out infinite alternate; }
+
+/* ---------- Deslizamiento en el compositor ----------
+   Un patrón que se repite cada --tile px se desliza con transform (no repinta ni recalcula estilos).
+   Va fuera de @layer para ganar a las utilidades de Tailwind. */
+@keyframes pf-slide {
+	to { transform: translateX(calc(var(--tile) * -1)); }
+}
+.pf-stripes,
+.pf-stripes-fast,
+.pf-scroll,
+.pf-mscroll {
+	/* alarga la caja una baldosa para que el deslizamiento no deje hueco */
+	margin-right: calc(var(--tile) * -1);
+	animation: pf-slide var(--dur) linear infinite;
+}
 
 /* ---------- Silueta: color y opacidad (móvil / escritorio) ---------- */
 .sil-tone {
@@ -121,12 +126,6 @@
 }
 
 /* ---------- Mar (Sobre mí): olas en silueta que se deslizan y brillos que titilan ---------- */
-@keyframes pf-mscroll {
-	to {
-		-webkit-mask-position-x: calc(var(--tile) * -1);
-		mask-position-x: calc(var(--tile) * -1);
-	}
-}
 /* Agua del mar: banda simple en móvil y forma con cubierta desde md (las formas llegan como variables) */
 .sea-clip {
 	--sea-top: 50vh;
@@ -142,7 +141,6 @@
 	0%, 100% { opacity: 0; transform: scaleX(0.3); }
 	50% { opacity: 0.85; transform: scaleX(1); }
 }
-.pf-mscroll { animation: pf-mscroll var(--dur) linear infinite; }
 .pf-wave-rev { animation-direction: reverse; }
 .pf-glint { opacity: 0; animation: pf-glint ease-in-out infinite; }
 
@@ -165,9 +163,6 @@
 .pf-twinkle { animation: pf-twinkle ease-in-out infinite; }
 
 /* ---------- Metro (Contacto): paisaje que pasa, postes y destellos ---------- */
-@keyframes pf-scroll {
-	to { background-position-x: calc(var(--tile) * -1); }
-}
 @keyframes pf-tunnel {
 	0%, 58% { transform: translateX(-130%); opacity: 0; }
 	60% { opacity: 1; }
@@ -190,7 +185,6 @@
 	75% { transform: translateY(-0.5px); }
 	100% { transform: translateY(0); }
 }
-.pf-scroll { animation: pf-scroll var(--dur) linear infinite; }
 .pf-tunnel { opacity: 0; animation: pf-tunnel 9s linear infinite; }
 .pf-glare { opacity: 0; animation: pf-glare 13s ease-in-out infinite; }
 .pf-lean { animation: pf-lean 5s ease-in-out infinite alternate; }
