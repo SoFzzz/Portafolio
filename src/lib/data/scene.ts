@@ -11,7 +11,7 @@
  *   'top-right'             figura colgando desde arriba a la derecha
  *   'run'                   grupo que cruza la pantalla por abajo
  * anim → cómo se mueve: 'sway' péndulo · 'breathe' respira · 'float' flota · 'run' corre · 'none' quieta
- * from → desde qué ancho se ve ('md' = 768 px, 'lg' = 1024 px); smOpacity la muestra también en móvil.
+ * from → desde qué ancho se ve ('sm' = siempre, 'md' = 768 px, 'lg' = 1024 px); smOpacity la muestra también en móvil.
  *
  * La de Contacto (banca) la dibuja MetroBackdrop, porque va sentada dentro del vagón.
  */
@@ -22,7 +22,7 @@ export type Silhouette = {
 	/** Color de la silueta: rojo de la marca o naranja (para fondos oscuros). */
 	tone: 'primary' | 'accent';
 	opacity: number;
-	from: 'md' | 'lg';
+	from: 'sm' | 'md' | 'lg';
 	/** Si se define, la silueta también se ve en móvil con esta opacidad (y smTone). */
 	smOpacity?: number;
 	smTone?: 'primary' | 'accent';
@@ -37,13 +37,11 @@ export const silhouettes: Record<string, Silhouette | null> = {
 		anim: 'breathe',
 		tone: 'accent',
 		opacity: 0.9,
-		from: 'lg',
-		smOpacity: 0.12,
-		smTone: 'primary'
+		from: 'sm'
 	},
 	// Quieta: el movimiento está en el cielo de arriba
-	'sobre-mi': { src: '/characters/touhou.webp', pos: 'bottom-wide', anim: 'none', tone: 'primary', opacity: 0.62, from: 'md' },
-	proyectos: { src: '/characters/holly-quintet.webp', pos: 'top-right', anim: 'sway', tone: 'primary', opacity: 0.26, from: 'md' },
-	juego: { src: '/characters/utena.webp', pos: 'right', anim: 'float', tone: 'primary', opacity: 0.2, from: 'md' },
+	'sobre-mi': { src: '/characters/touhou.webp', pos: 'bottom-wide', anim: 'none', tone: 'primary', opacity: 0.62, from: 'sm' },
+	proyectos: { src: '/characters/holly-quintet.webp', pos: 'top-right', anim: 'sway', tone: 'primary', opacity: 0.26, from: 'sm' },
+	juego: { src: '/characters/utena.webp', pos: 'right', anim: 'float', tone: 'primary', opacity: 0.2, from: 'sm' },
 	contacto: null
 };

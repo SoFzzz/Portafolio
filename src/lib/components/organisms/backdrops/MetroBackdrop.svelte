@@ -14,15 +14,12 @@
 	const tone = (pct: number) => `color-mix(in oklab, var(--color-primary) ${pct}%, var(--color-background))`;
 </script>
 
-<!-- Pantallas medianas: solo la silueta, sin el vagón -->
-<div class="pf-enter absolute right-[2%] -bottom-[2vh] hidden h-[44vh] w-[56vw] md:block xl:hidden">
-	<div class="pf-breathe size-full origin-bottom" style="background: {tone(34)}; {girlMask}"></div>
-</div>
-
-<!-- Pantallas grandes: el vagón completo -->
-<div class="pf-enter absolute inset-0 hidden xl:block">
+<!-- El vagón, a todos los tamaños: --win es la altura de las ventanas y --girl-w el ancho de la silueta -->
+<div
+	class="pf-enter absolute inset-0 [--win:34vh] [--girl-w:118vw] md:[--win:44vh] md:[--girl-w:86vw] xl:[--win:52vh] xl:[--girl-w:64vw]"
+>
 	<!-- por las ventanas: ciudad que pasa, mar que brilla y pilares de puente -->
-	<div class="absolute inset-x-0 top-0 h-[52vh] overflow-hidden">
+	<div data-bg="wagon" class="absolute inset-x-0 top-0 h-[var(--win)] overflow-hidden">
 		<div class="pf-scroll absolute inset-x-0 bottom-[30%] h-[34%]" style={layer('skyline-far.svg', 600, 55)}></div>
 		<div class="pf-scroll absolute inset-x-0 bottom-[30%] h-[44%]" style={layer('skyline-near.svg', 800, 24)}></div>
 
@@ -39,12 +36,12 @@
 
 	<!-- pared: cabecera, dos pilares y repisa -->
 	<div class="absolute inset-x-0 top-0 h-[4vh]" style="background: {tone(16)}"></div>
-	<div class="absolute top-0 left-[57vw] h-[52vh] w-[5vw]" style="background: {tone(16)}"></div>
-	<div class="absolute top-0 left-[90vw] h-[52vh] w-[3.5vw]" style="background: {tone(16)}"></div>
-	<div class="absolute inset-x-0 top-[50vh] h-[6vh]" style="background: {tone(16)}"></div>
+	<div class="absolute top-0 left-[57vw] h-[var(--win)] w-[5vw] max-md:hidden" style="background: {tone(16)}"></div>
+	<div class="absolute top-0 left-[90vw] h-[var(--win)] w-[3.5vw]" style="background: {tone(16)}"></div>
+	<div class="absolute inset-x-0 top-[calc(var(--win)-2vh)] h-[6vh]" style="background: {tone(16)}"></div>
 
 	<!-- respaldo -->
-	<div class="absolute inset-x-0 top-[56vh] bottom-0" style="background: {tone(17)}"></div>
+	<div class="absolute inset-x-0 top-[calc(var(--win)+4vh)] bottom-0" style="background: {tone(17)}"></div>
 
 	<!-- asiento: a la altura de la cadera de la silueta -->
 	<div
@@ -54,7 +51,7 @@
 
 	<!-- la silueta, sentada. Baja un poco de la pantalla para que su borde inferior no se vea -->
 	<div
-		class="pf-lean absolute -right-[3vw] -bottom-[10vh] aspect-[1400/860] w-[64vw] max-w-[calc(90vh*1.628)] origin-bottom"
+		class="pf-lean absolute -right-[34vw] -bottom-[4vh] aspect-[1400/860] w-[var(--girl-w)] max-w-[calc(90vh*1.628)] origin-bottom md:-right-[12vw] xl:-right-[3vw] xl:-bottom-[10vh]"
 	>
 		<!-- los muebles se miden en % de la silueta, así se mueven y escalan con ella -->
 		<div class="pf-rattle size-full">
@@ -63,7 +60,7 @@
 				class="absolute top-[75%] left-[69%] h-[10%] w-[19%] rounded-[1.4vw]"
 				style="background: {tone(42)}; box-shadow: inset 0 0.7vh 0 {tone(54)}"
 			></div>
-			<div class="absolute inset-0" style="background: {tone(68)}; {girlMask}"></div>
+			<div data-bg="silhouette" class="absolute inset-0" style="background: {tone(68)}; {girlMask}"></div>
 		</div>
 	</div>
 </div>

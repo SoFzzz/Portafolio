@@ -127,6 +127,17 @@
 		mask-position-x: calc(var(--tile) * -1);
 	}
 }
+/* Agua del mar: banda simple en móvil y forma con cubierta desde md (las formas llegan como variables) */
+.sea-clip {
+	--sea-top: 50vh;
+	clip-path: var(--clip-sm);
+}
+@media (min-width: 48rem) {
+	.sea-clip {
+		--sea-top: 62vh;
+		clip-path: var(--clip-md);
+	}
+}
 @keyframes pf-glint {
 	0%, 100% { opacity: 0; transform: scaleX(0.3); }
 	50% { opacity: 0.85; transform: scaleX(1); }

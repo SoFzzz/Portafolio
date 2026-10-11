@@ -96,6 +96,35 @@ try {
 		const w = await c.ev(() => document.documentElement.scrollWidth);
 		ok(w <= 375, `/${r} sin desborde a 375 px (scrollWidth ${w})`);
 	}
+
+	// 6. Fondos visibles en móvil y tableta
+	const BG = {
+		'': ['panel', 'silhouette'],
+		'sobre-mi/': ['sea', 'silhouette'],
+		'proyectos/': ['silhouette'],
+		'proyectos/descending-to-my-heaven/': ['silhouette'],
+		'contacto/': ['wagon', 'silhouette']
+	};
+	for (const [w, h] of [[390, 844], [820, 1180]]) {
+		await c.send('Emulation.setDeviceMetricsOverride', { width: w, height: h, deviceScaleFactor: 1, mobile: w < 768 });
+		for (const [r, wanted] of Object.entries(BG)) {
+			await goto(base + r);
+			await c.sleep(1500);
+			for (const name of wanted) {
+				const vis = await c.ev(`(() => [...document.querySelectorAll('[data-bg="${name}"]')].some((el) => {
+					const b = el.getBoundingClientRect();
+					let o = 1;
+					for (let e = el; e; e = e.parentElement) {
+						const cs = getComputedStyle(e);
+						if (cs.display === 'none' || cs.visibility === 'hidden') return false;
+						o *= Number(cs.opacity);
+					}
+					return b.width > 0 && b.height > 0 && o >= 0.15;
+				}))()`);
+				ok(vis, `${w}px /${r} data-bg=${name} visible`);
+			}
+		}
+	}
 } finally {
 	c.close();
 }

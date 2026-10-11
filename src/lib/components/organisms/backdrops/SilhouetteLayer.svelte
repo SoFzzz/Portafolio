@@ -7,10 +7,10 @@
 	const url = $derived(`url(${base}${sil.src})`);
 
 	const place = {
-		right: 'right-[2%] bottom-0 h-[84vh] w-[34vw]',
-		'right-tall': 'right-[1%] bottom-0 h-[96vh] w-[42vw]',
-		'bottom-wide': 'right-[2%] bottom-0 h-[58vh] w-[60vw]',
-		'top-right': 'right-0 top-0 h-[36vh] w-[52vw]',
+		right: 'right-[-8%] bottom-0 h-[55vh] w-[80vw] md:right-[2%] md:h-[84vh] md:w-[34vw]',
+		'right-tall': 'right-[-6%] bottom-0 h-[44vh] w-[78vw] lg:right-[1%] lg:h-[96vh] lg:w-[42vw]',
+		'bottom-wide': 'right-[-4%] bottom-0 h-[30vh] w-[104vw] md:right-[2%] md:h-[58vh] md:w-[60vw]',
+		'top-right': 'right-0 top-0 h-[22vh] w-[92vw] md:h-[36vh] md:w-[52vw]',
 		run: 'left-0 bottom-0 h-[20vh] w-[42vw]'
 	} as const;
 	const anchor = {
@@ -22,9 +22,9 @@
 	} as const;
 	const origin = { sway: 'origin-top', breathe: 'origin-bottom', float: 'origin-bottom', run: 'origin-bottom', none: '' } as const;
 
-	// En pantallas chicas solo se ve si la silueta define smOpacity.
+	// Por debajo de su ancho mínimo solo se ve si la silueta es 'sm' o define smOpacity.
 	const visibility = $derived(
-		sil.smOpacity !== undefined ? '' : sil.from === 'lg' ? 'hidden lg:block' : 'hidden md:block'
+		sil.from === 'sm' || sil.smOpacity !== undefined ? '' : sil.from === 'lg' ? 'hidden lg:block' : 'hidden md:block'
 	);
 	const vars = $derived(
 		`--o: ${sil.opacity}; --o-sm: ${sil.smOpacity ?? sil.opacity}; --c: var(--color-${sil.tone}); --c-sm: var(--color-${sil.smTone ?? sil.tone});`
@@ -39,11 +39,11 @@
 	<div class="pf-enter absolute {visibility} {place[sil.pos]}">
 		{#if sil.anim === 'run'}
 			<div class="pf-run absolute inset-y-0 left-0 w-full">
-				<div class="pf-bob sil-tone size-full" style="{vars} {mask}"></div>
+				<div data-bg="silhouette" class="pf-bob sil-tone size-full" style="{vars} {mask}"></div>
 			</div>
 		{:else}
 			<div class="{sil.anim === 'none' ? '' : 'pf-' + sil.anim} size-full {origin[sil.anim]}">
-				<div class="sil-tone size-full" style="{vars} {mask}"></div>
+				<div data-bg="silhouette" class="sil-tone size-full" style="{vars} {mask}"></div>
 			</div>
 		{/if}
 	</div>

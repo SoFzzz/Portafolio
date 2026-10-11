@@ -26,9 +26,10 @@
 	{/if}
 
 	{#if scene === 'split'}
-		<!-- panel diagonal oscuro: solo escritorio -->
+		<!-- panel oscuro: franja inferior en móvil y diagonal a la derecha desde lg -->
 		<div
-			class="absolute top-0 right-0 h-full w-[50%] [clip-path:polygon(26%_0,100%_0,100%_100%,0_100%)] max-lg:hidden"
+			data-bg="panel"
+			class="absolute inset-x-0 bottom-0 h-[46vh] [clip-path:polygon(0_22%,100%_0,100%_100%,0_100%)] lg:inset-x-auto lg:top-0 lg:right-0 lg:h-full lg:w-[50%] lg:[clip-path:polygon(26%_0,100%_0,100%_100%,0_100%)]"
 			style="background: linear-gradient(160deg, var(--color-secondary) 0%, color-mix(in oklab, var(--color-primary) 45%, var(--color-secondary)) 100%)"
 		>
 			<div
