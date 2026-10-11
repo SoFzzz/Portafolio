@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://sofzzz.github.io/Portafolio/sitemap.xml

@@ -13,7 +13,12 @@
 	const keyArt = 'polygon(0 0, 100% 0, 100% 90%, 94% 100%, 0 100%)';
 </script>
 
-<SectionShell title="Videojuego" backHref="/proyectos">
+<SectionShell
+	title="Videojuego"
+	backHref="/proyectos/"
+	path="/proyectos/descending-to-my-heaven/"
+	description="Descending to my Heaven, videojuego en desarrollo de Paula Sofía González."
+>
 	<div class="flex flex-col gap-10 lg:flex-row lg:gap-12">
 		<div class="flex min-w-0 flex-col gap-5 lg:flex-[1.3]">
 			<div class="relative">

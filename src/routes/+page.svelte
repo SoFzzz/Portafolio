@@ -1,10 +1,15 @@
 <script lang="ts">
 	import { base } from '$app/paths';
+	import Seo from '$lib/components/atoms/Seo.svelte';
 	import MainMenu from '$lib/components/organisms/MainMenu.svelte';
 	import { profile } from '$lib/data/profile';
 </script>
 
-<svelte:head><title>{profile.shortName} · Portafolio</title></svelte:head>
+<Seo
+	title="Paula Sofía González · Full Stack Developer Junior"
+	description="Portafolio de Paula Sofía González, Full Stack Developer Junior y estudiante de Ingeniería de Software. Apps Android, Wear OS y escritorio con Kotlin, Python y FastAPI."
+	path="/"
+/>
 
 <!-- La silueta (Shiori) vive en el fondo, a la derecha, y "mira" hacia el menú. -->
 <div class="mx-auto flex min-h-dvh max-w-[90rem] flex-col gap-8 px-4 py-5 sm:px-8 lg:px-[4.5rem] lg:py-12">

@@ -12,7 +12,13 @@
 	]);
 </script>
 
-<SectionShell title={project.title} intro={project.summary} backHref="/proyectos/">
+<SectionShell
+	title={project.title}
+	intro={project.summary}
+	backHref="/proyectos/"
+	path="/proyectos/{project.slug}/"
+	description={project.summary}
+>
 	<div class="flex flex-col gap-10 lg:flex-row lg:gap-12">
 		<ul class="m-0 grid min-w-0 list-none gap-4 p-0 sm:grid-cols-2 lg:flex-[1.3]">
 			{#each project.shots as shot, i}

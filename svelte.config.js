@@ -10,7 +10,7 @@ const config = {
 	kit: {
 		adapter: adapter({ fallback: '404.html' }),
 		paths: { base, relative: false },
-		prerender: { handleHttpError: 'warn' }
+		prerender: { handleHttpError: 'fail' }
 	}
 };
 

@@ -6,7 +6,11 @@
 	import { profile } from '$lib/data/profile';
 </script>
 
-<SectionShell title="Sobre mí">
+<SectionShell
+	title="Sobre mí"
+	path="/sobre-mi/"
+	description="Quién soy, qué tecnologías manejo y mi formación en Ingeniería de Software en la Universidad Cooperativa de Colombia."
+>
 	<!-- Habilidades: tarjetas compactas arriba a la derecha, junto al título -->
 	{#snippet aside()}
 		<h2 class="mb-3 font-display text-2xl tracking-wider text-primary uppercase">Habilidades</h2>

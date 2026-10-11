@@ -2,16 +2,23 @@
 	import { goto } from '$app/navigation';
 	import { base } from '$app/paths';
 	import type { Snippet } from 'svelte';
+	import { siteName } from '$lib/data/site';
+	import Seo from '../atoms/Seo.svelte';
 	import SectionTitle from '../atoms/SectionTitle.svelte';
 
 	let {
 		title,
+		description,
+		path,
 		intro,
 		backHref = '/',
 		aside,
 		children
 	}: {
 		title: string;
+		description: string;
+		/** Ruta de la página (con barra final), para canonical y og:url. */
+		path: string;
 		intro?: string;
 		backHref?: string;
 		/** Contenido opcional a la derecha del título (en escritorio), para equilibrar el peso visual. */
@@ -31,7 +38,7 @@
 
 <svelte:window onkeydown={onKey} />
 
-<svelte:head><title>{title} · Paula Sofía González</title></svelte:head>
+<Seo title="{title} · {siteName}" {description} {path} />
 
 <div class="relative mx-auto flex max-w-[90rem] flex-col gap-8 px-4 pt-5 pb-16 sm:px-8 lg:gap-10 lg:px-[4.5rem] lg:pt-10">
 	<header class="flex flex-wrap items-center justify-between gap-4">

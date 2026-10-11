@@ -7,6 +7,8 @@
 
 <SectionShell
 	title="Proyectos"
+	path="/proyectos/"
+	description="Likka-Pet, WakeSync y ClearRead: tres apps que ideé, diseñé y programé, y un videojuego en desarrollo."
 	intro="Tres apps completas, de Android a un reloj y a escritorio, y un videojuego. Cada una tiene su propio repositorio."
 >
 	<ul class="m-0 grid list-none grid-cols-1 gap-8 p-0 md:grid-cols-2 xl:grid-cols-4 lg:gap-9">
