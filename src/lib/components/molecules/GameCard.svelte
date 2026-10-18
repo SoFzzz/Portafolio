@@ -14,7 +14,9 @@
 		class="flex h-40 items-end justify-between p-4 [clip-path:polygon(0_0,100%_0,100%_84%,90%_100%,0_100%)] md:h-56 md:p-5"
 		style="background-image: radial-gradient(circle, rgba(242,149,68,0.4) 1.4px, transparent 2px), linear-gradient(160deg, #0d0000 0%, #4a0f0f 55%, #bf2424 100%); background-size: 10px 10px, 100% 100%"
 	>
-		<span class="font-display text-lg tracking-widest text-background uppercase md:text-[22px]">[Arte del juego]</span>
+		<span class="font-display text-[clamp(1.75rem,1.4rem+1.2vw,2.5rem)] leading-[0.95] tracking-wide text-background uppercase"
+			>Descending<br />to my Heaven</span
+		>
 		<span class="bg-highlight px-3 py-1 text-[11px] font-semibold tracking-[0.12em] text-text uppercase md:text-xs">Videojuego</span>
 	</div>
 
@@ -25,6 +27,8 @@
 		<p class="text-base leading-relaxed">{game.premise}</p>
 		<ul class="flex flex-wrap gap-2">
 			<li><Tag kind="status">{game.status}</Tag></li>
+			<li><Tag>Godot</Tag></li>
+			<li><Tag>GDScript</Tag></li>
 		</ul>
 		<div class="mt-auto pt-2">
 			<Button href="{base}/proyectos/descending-to-my-heaven/">

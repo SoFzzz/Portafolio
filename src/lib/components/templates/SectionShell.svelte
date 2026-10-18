@@ -28,8 +28,9 @@
 
 	function onKey(e: KeyboardEvent) {
 		if (e.key === 'Escape') {
+			if (e.ctrlKey || e.metaKey || e.altKey) return;
 			const t = e.target as HTMLElement | null;
-			if (t && /^(input|textarea|select)$/i.test(t.tagName)) return;
+			if (t?.closest('input, textarea, select, [contenteditable]')) return;
 			e.preventDefault();
 			goto(base + backHref);
 		}

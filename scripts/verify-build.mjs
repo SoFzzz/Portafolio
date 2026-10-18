@@ -41,7 +41,9 @@ for (const file of pages) {
 }
 
 const sitemap = existsSync(join(ROOT, 'sitemap.xml')) ? readFileSync(join(ROOT, 'sitemap.xml'), 'utf8') : '';
-ok((sitemap.match(/<loc>/g) ?? []).length === 8, 'sitemap.xml con 8 <loc>');
+// 5 páginas fijas (incluye el videojuego) + una por proyecto de src/lib/data/projects.ts.
+const nProjects = (readFileSync('src/lib/data/projects.ts', 'utf8').match(/^		slug: /gm) ?? []).length;
+ok((sitemap.match(/<loc>/g) ?? []).length === 5 + nProjects, `sitemap.xml con ${5 + nProjects} <loc>`);
 const robots = existsSync(join(ROOT, 'robots.txt')) ? readFileSync(join(ROOT, 'robots.txt'), 'utf8') : '';
 ok(/Sitemap:/.test(robots), 'robots.txt con Sitemap:');
 

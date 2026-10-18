@@ -5,11 +5,14 @@
 		href,
 		variant = 'primary',
 		external = false,
+		download = false,
 		children
 	}: {
 		href: string;
 		variant?: 'primary' | 'secondary';
 		external?: boolean;
+		/** Descarga el archivo (omite el enrutador de SvelteKit y la cortina de transición) */
+		download?: boolean;
 		children: Snippet;
 	} = $props();
 </script>
@@ -18,6 +21,8 @@
 	{href}
 	target={external ? '_blank' : undefined}
 	rel={external ? 'noopener noreferrer' : undefined}
+	download={download ? '' : undefined}
+	data-sveltekit-reload={download ? '' : undefined}
 	class="inline-flex min-h-12 items-center gap-2.5 px-6 text-[15px] font-semibold tracking-[0.08em] uppercase transition-transform duration-150 hover:-translate-y-0.5 active:translate-y-0
 		{variant === 'primary'
 		? 'bg-primary text-white shadow-[5px_5px_0_var(--color-accent)] hover:bg-secondary'

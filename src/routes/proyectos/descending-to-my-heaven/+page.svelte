@@ -17,7 +17,7 @@
 	title="Videojuego"
 	backHref="/proyectos/"
 	path="/proyectos/descending-to-my-heaven/"
-	description="Descending to my Heaven, videojuego en desarrollo de Paula Sofía González."
+	description="Descending to my Heaven, videojuego de Paula Sofía González."
 >
 	<div class="flex flex-col gap-10 lg:flex-row lg:gap-12">
 		<div class="flex min-w-0 flex-col gap-5 lg:flex-[1.3]">
@@ -25,24 +25,24 @@
 				<div aria-hidden="true" class="absolute inset-0 translate-x-2 translate-y-2 bg-secondary md:translate-x-3.5 md:translate-y-3.5" style="clip-path: {keyArt}"></div>
 				<div
 					role="img"
-					aria-label="Espacio para el arte clave o video de {game.title}"
+					aria-label="Portada tipográfica de {game.title}"
 					class="relative flex aspect-[16/10] items-end justify-between p-4 md:aspect-video md:p-6"
 					style="clip-path: {keyArt}; background-image: radial-gradient(circle, rgba(242,149,68,0.45) 1.5px, transparent 2.1px), linear-gradient(160deg, #0d0000 0%, #4a0f0f 50%, #bf2424 100%); background-size: 11px 11px, 100% 100%"
 				>
-					<span class="font-display text-sm tracking-widest text-background uppercase md:text-[22px]">[Arte clave o video del juego]</span>
+					<span class="font-display text-sm tracking-widest text-background uppercase md:text-[22px]">Boss rush · Godot</span>
 				</div>
 			</div>
 
-			<ul class="m-0 grid list-none grid-cols-2 gap-3 p-0 sm:grid-cols-4">
-				{#each game.media as m}
-					<li
-						class="flex aspect-video items-center justify-center bg-chip text-xs font-semibold tracking-widest text-secondary uppercase"
-						style="background-image: radial-gradient(circle, rgba(191,36,36,0.22) 1.2px, transparent 1.8px); background-size: 9px 9px"
-					>
-						{m.label}
-					</li>
-				{/each}
-			</ul>
+			<div class="bg-surface p-5 shadow-[6px_6px_0_var(--color-secondary)] md:p-6 md:shadow-[8px_8px_0_var(--color-secondary)]">
+				<h3 class="m-0 mb-3 font-display text-2xl tracking-wide text-primary uppercase">Sistemas del juego</h3>
+				<ul class="m-0 flex list-none flex-col gap-2.5 p-0">
+					{#each game.features as f}
+						<li class="flex gap-3 text-[15px] leading-relaxed">
+							<span aria-hidden="true" class="mt-2 size-2 shrink-0 bg-accent"></span>{f}
+						</li>
+					{/each}
+				</ul>
+			</div>
 		</div>
 
 		<div class="flex min-w-0 flex-col gap-6 lg:flex-1">

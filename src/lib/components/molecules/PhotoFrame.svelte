@@ -23,26 +23,20 @@
 		aria-label={src ? undefined : 'Espacio para la foto de perfil'}
 	>
 		{#if src}
-			<!-- duotono: foto en grises mezclada sobre el rojo -->
-			<img
-				{src}
-				{alt}
-				width="440"
-				height="520"
-				class="size-full object-cover mix-blend-screen grayscale contrast-110"
-			/>
+			<!-- foto a color natural, sin filtros: se ve nítida y el rostro queda limpio -->
+			<img {src} {alt} width="440" height="520" class="size-full object-cover" />
 		{:else}
 			<span
 				class="absolute bottom-4 left-4 font-display text-sm tracking-widest text-background uppercase md:text-xl"
-				>[Tu foto · recorte + duotono]</span
+				>[Tu foto · recorte]</span
 			>
+			<!-- trama halftone: solo en el placeholder, nunca sobre la foto -->
+			<div
+				aria-hidden="true"
+				class="absolute inset-0"
+				style="background-image: radial-gradient(circle, rgba(242,149,68,0.55) 1.6px, transparent 2.2px); background-size: 11px 11px"
+			></div>
 		{/if}
-		<!-- trama halftone -->
-		<div
-			aria-hidden="true"
-			class="absolute inset-0"
-			style="background-image: radial-gradient(circle, rgba(242,149,68,0.55) 1.6px, transparent 2.2px); background-size: 11px 11px"
-		></div>
 	</div>
 
 	<!-- franja de acento -->

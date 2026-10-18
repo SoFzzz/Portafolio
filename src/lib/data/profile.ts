@@ -10,17 +10,20 @@ export const profile = {
 		'Me gusta programar, experimentar con nuevas tecnologías y construir soluciones que tengan un propósito. Estoy explorando el mundo de la ciberseguridad y el cloud computing, dos áreas en las que quiero seguir creciendo. Cuando no estoy programando, probablemente estoy jugando algún RPG.',
 		'He desarrollado apps para Android y Wear OS, una aplicación de escritorio y varios backends, además de un videojuego.'
 	],
+	/** CV en PDF (se genera con `npm run cv` a partir de cv/cv.html). Ruta sin el base path. */
+	cv: { href: '/cv/Paula-Sofia-Gonzalez-CV.pdf', label: 'Descargar CV (PDF)' },
 	education: [
 		{
 			title: 'Ingeniería de Software',
 			place: 'Universidad Cooperativa de Colombia',
-			period: '2 años'
+			period: '5.º semestre · desde agosto de 2024'
 		}
 	],
 	skills: [
-		{ group: 'Móvil y wearables', items: ['Kotlin', 'Java', 'Jetpack Compose', 'Android', 'Wear OS'] },
-		{ group: 'Backend', items: ['Python', 'FastAPI', 'TypeScript', 'Cloudflare Workers'] },
-		{ group: 'Frontend', items: ['JavaScript', 'CSS', 'Tailwind CSS'] },
+		{ group: 'Móvil y wearables', items: ['Kotlin', 'Jetpack Compose', 'Android', 'Wear OS'] },
+		{ group: 'Backend', items: ['Java', 'Spring Boot', 'Python', 'FastAPI', 'TypeScript', 'Cloudflare Workers'] },
+		{ group: 'Bases de datos', items: ['PostgreSQL', 'MongoDB', 'Redis'] },
+		{ group: 'Frontend', items: ['JavaScript', 'React', 'Next.js', 'Tailwind CSS'] },
 		{ group: 'IA y servicios', items: ['DeepSeek API', 'OCR', 'Mapbox'] },
 		{ group: 'Diseño y herramientas', items: ['Design systems', 'Git y GitHub'] }
 	]

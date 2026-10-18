@@ -6,19 +6,27 @@ export type Game = {
 	engine: string;
 	platform: string;
 	role: string;
-	media: { label: string }[];
+	/** Sistemas del juego (no hay capturas todavía). */
+	features: string[];
+	/** El repositorio es privado: no hay enlaces públicos. */
 	links: { play?: string; repo?: string };
 };
 
-// Marcadores: faltan los datos reales del juego (ver docs/PLAN-PORTAFOLIO.md §13).
 export const game: Game = {
 	title: 'Descending to my Heaven',
-	status: '[Estado del juego]',
-	premise: '[Premisa del juego en 2–3 frases: de qué trata y qué se siente al jugarlo.]',
-	genre: '[Género]',
-	engine: '[Motor]',
-	platform: '[Plataforma]',
-	role: '[Tu rol en el proyecto]',
-	media: [{ label: '[Captura 1]' }, { label: '[Captura 2]' }, { label: '[Captura 3]' }, { label: '[Captura 4]' }],
+	status: 'Versión 1.0.0-rc1',
+	premise:
+		'Kaelen sube un templo de tres pisos sobre una isla flotante y se enfrenta a tres jefes para llegar a Elysia. Un boss rush en tercera persona con combate estilo soulslike y estética PSX.',
+	genre: 'Boss rush 3D en tercera persona, estilo soulslike',
+	engine: 'Godot 4.7 (GDScript)',
+	platform: 'Windows',
+	role: 'Proyecto colaborativo (equipo de 3): desarrollo de la lógica del videojuego y de la IA: la IA táctica de los jefes, el estado de juego y los ajustes guardados.',
+	features: [
+		'Tres jefes: Bone Dragon, Blackhorn y Mecha King Ghidorah.',
+		'IA táctica de los jefes por utilidad: atacar, cortar el paso, esperar o flanquear, con memoria de combate.',
+		'Estado de juego, menús y opciones guardadas: controles reasignables, volumen, pantalla e idioma (ES/EN).',
+		'Soporte para mando de Xbox, final con diálogo y créditos.',
+		'Pruebas automatizadas de la lógica en modo headless.'
+	],
 	links: {}
 };

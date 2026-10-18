@@ -1,5 +1,7 @@
 <script lang="ts">
 	import { base } from '$app/paths';
+	import Button from '$lib/components/atoms/Button.svelte';
+	import DownloadIcon from '$lib/components/atoms/DownloadIcon.svelte';
 	import Tag from '$lib/components/atoms/Tag.svelte';
 	import PhotoFrame from '$lib/components/molecules/PhotoFrame.svelte';
 	import SectionShell from '$lib/components/templates/SectionShell.svelte';
@@ -42,6 +44,9 @@
 				>
 				<span class="text-base font-medium">{profile.role}</span>
 				<span class="text-[15px] text-muted">{profile.studies}</span>
+				<div class="mt-3">
+					<Button href={base + profile.cv.href} download><DownloadIcon />{profile.cv.label}</Button>
+				</div>
 			</div>
 		</div>
 

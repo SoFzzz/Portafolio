@@ -2,11 +2,13 @@
 	import { base } from '$app/paths';
 	import Button from '$lib/components/atoms/Button.svelte';
 	import Tag from '$lib/components/atoms/Tag.svelte';
+	import { kindLabel } from '$lib/data/projects';
 	import SectionShell from '$lib/components/templates/SectionShell.svelte';
 
 	let { data } = $props();
 	const project = $derived(data.project);
 	const facts = $derived([
+		['Tipo', kindLabel[project.kind]],
 		['Plataforma', project.platform],
 		['Mi rol', project.role]
 	]);
@@ -20,20 +22,33 @@
 	description={project.summary}
 >
 	<div class="flex flex-col gap-10 lg:flex-row lg:gap-12">
-		<ul class="m-0 grid min-w-0 list-none gap-4 p-0 sm:grid-cols-2 lg:flex-[1.3]">
-			{#each project.shots as shot, i}
-				<li class="min-w-0 self-start {shot.width > shot.height * 1.4 ? 'sm:col-span-2' : ''}">
-					<img
-						src={base + shot.src}
-						alt={shot.alt}
-						width={shot.width}
-						height={shot.height}
-						loading={i === 0 ? undefined : 'lazy'}
-						class="h-auto w-full bg-surface p-2 shadow-[6px_6px_0_var(--color-secondary)]"
-					/>
-				</li>
-			{/each}
-		</ul>
+		{#if project.shots?.length}
+			<ul class="m-0 grid min-w-0 list-none gap-4 p-0 sm:grid-cols-2 lg:flex-[1.3]">
+				{#each project.shots as shot, i}
+					<li class="min-w-0 self-start {shot.width > shot.height * 1.4 ? 'sm:col-span-2' : ''}">
+						<img
+							src={base + shot.src}
+							alt={shot.alt}
+							width={shot.width}
+							height={shot.height}
+							loading={i === 0 ? undefined : 'lazy'}
+							class="h-auto w-full bg-surface p-2 shadow-[6px_6px_0_var(--color-secondary)]"
+						/>
+					</li>
+				{/each}
+			</ul>
+		{:else if project.highlights?.length}
+			<div class="min-w-0 self-start bg-surface p-5 shadow-[6px_6px_0_var(--color-secondary)] md:p-6 md:shadow-[8px_8px_0_var(--color-secondary)] lg:flex-[1.3]">
+				<h3 class="m-0 mb-3 font-display text-2xl tracking-wide text-primary uppercase">Lo más destacado</h3>
+				<ul class="m-0 flex list-none flex-col gap-2.5 p-0">
+					{#each project.highlights as h}
+						<li class="flex gap-3 text-[15px] leading-relaxed">
+							<span aria-hidden="true" class="mt-2 size-2 shrink-0 bg-accent"></span>{h}
+						</li>
+					{/each}
+				</ul>
+			</div>
+		{/if}
 
 		<div class="flex min-w-0 flex-col gap-6 lg:flex-1">
 			{#if project.logo}

@@ -1,6 +1,10 @@
 <script lang="ts">
+	import { base } from '$app/paths';
+	import Button from '$lib/components/atoms/Button.svelte';
+	import DownloadIcon from '$lib/components/atoms/DownloadIcon.svelte';
 	import SocialLink from '$lib/components/molecules/SocialLink.svelte';
 	import SectionShell from '$lib/components/templates/SectionShell.svelte';
+	import { profile } from '$lib/data/profile';
 	import { socials } from '$lib/data/socials';
 </script>
 
@@ -17,4 +21,7 @@
 			</li>
 		{/each}
 	</ul>
+	<div class="mt-8">
+		<Button href={base + profile.cv.href} download variant="secondary"><DownloadIcon />{profile.cv.label}</Button>
+	</div>
 </SectionShell>

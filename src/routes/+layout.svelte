@@ -7,6 +7,7 @@
 	import { page } from '$app/state';
 	import MotionToggle from '$lib/components/molecules/MotionToggle.svelte';
 	import BackgroundMotion from '$lib/components/organisms/BackgroundMotion.svelte';
+	import KeyNav from '$lib/components/organisms/KeyNav.svelte';
 	import TransitionCurtain from '$lib/components/organisms/TransitionCurtain.svelte';
 	import { findNav } from '$lib/data/nav';
 	import { silhouettes } from '$lib/data/scene';
@@ -38,6 +39,7 @@
 <BackgroundMotion scene={current.scene} sil={silhouettes[current.id] ?? null} />
 <main id="contenido" class="relative min-h-dvh">
 	{@render children()}
+	<KeyNav />
 </main>
 <TransitionCurtain />
 <MotionToggle />

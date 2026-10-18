@@ -2,7 +2,7 @@
 import { openChrome } from './lib/cdp.mjs';
 
 const base = (process.argv[2] ?? 'http://localhost:4173/').replace(/\/?$/, '/');
-const ROUTES = ['', 'sobre-mi/', 'proyectos/', 'proyectos/descending-to-my-heaven/', 'proyectos/likka-pet/', 'proyectos/wakesync/', 'proyectos/clearread/', 'contacto/'];
+const ROUTES = ['', 'sobre-mi/', 'proyectos/', 'proyectos/descending-to-my-heaven/', 'proyectos/likka-pet/', 'proyectos/wakesync/', 'proyectos/clearread/', 'proyectos/veltro/', 'proyectos/tarium/', 'proyectos/notiz-java/', 'contacto/'];
 
 let fallos = 0;
 const ok = (cond, msg) => {
@@ -93,11 +93,31 @@ try {
 	ok((await c.ev(() => document.documentElement.dataset.motion)) !== motion0, 'Enter en el botón de animaciones alterna data-motion');
 	await c.ev(() => localStorage.setItem('pf-motion', 'on'));
 
+	// 4e. Flechas / Enter / Esc dentro de una sección
+	await c.send('Emulation.setDeviceMetricsOverride', { width: 1440, height: 900, deviceScaleFactor: 1, mobile: false });
+	const press = async (k, vk) => {
+		for (const type of ['keyDown', 'keyUp'])
+			await c.send('Input.dispatchKeyEvent', { type, key: k, code: k, windowsVirtualKeyCode: vk, ...(type === 'keyDown' && k === 'Enter' ? { text: String.fromCharCode(13) } : {}) });
+		await c.sleep(500);
+	};
+	const focusText = () => c.ev(() => document.activeElement?.textContent?.trim().slice(0, 30) ?? '');
+	await goto(base + 'proyectos/');
+	await press('ArrowDown', 40);
+	ok((await focusText()).includes('Volver'), 'ArrowDown sin selección → primer elemento (Volver)');
+	await press('ArrowDown', 40);
+	const sel = await c.ev(() => document.activeElement?.closest('main') && document.activeElement.tagName === 'A' && document.activeElement.textContent.trim() !== 'Volver');
+	ok(sel, 'ArrowDown mueve la selección a otro enlace');
+	await press('ArrowUp', 38);
+	ok((await focusText()).includes('Volver'), 'ArrowUp vuelve a Volver');
+	await press('Enter', 13);
+	await c.sleep(1500);
+	ok(!(await path()).includes('proyectos'), 'Enter sobre Volver navega al inicio');
+
 	// 4b. Inicio → Proyectos → detalle → Atrás → Atrás
 	await goto(base);
 	await c.ev(() => document.querySelector('nav a[href*="proyectos"]').click());
 	await c.sleep(1800);
-	await c.ev(() => [...document.querySelectorAll('a')].find((a) => a.textContent.includes('Ver proyecto')).click());
+	await c.ev(() => [...document.querySelectorAll('a[href*="likka-pet"]')].find((a) => a.textContent.includes('Ver proyecto')).click());
 	await c.sleep(1800);
 	ok((await path()).endsWith('/proyectos/likka-pet/'), 'Ver proyecto → /proyectos/likka-pet/');
 	await c.ev(() => history.back());
