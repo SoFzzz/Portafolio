@@ -2,7 +2,7 @@
 	import '@fontsource/anton';
 	import '@fontsource-variable/inter';
 	import '../app.css';
-	import { beforeNavigate, goto } from '$app/navigation';
+	import { afterNavigate, beforeNavigate, goto } from '$app/navigation';
 	import { base } from '$app/paths';
 	import { page } from '$app/state';
 	import MotionToggle from '$lib/components/molecules/MotionToggle.svelte';
@@ -20,6 +20,56 @@
 
 	let busy = false;
 
+	/*
+	 * Historial jerárquico: Inicio (0) → sección (1) → detalle (2).
+	 * - Bajar un nivel agrega una entrada.
+	 * - Ir a una página del mismo nivel reemplaza la entrada actual.
+	 * - Subir (Volver, Esc) retrocede en el historial si el destino ya está atrás.
+	 * Así el botón Atrás del navegador recorre detalle → sección → Inicio → fuera del sitio.
+	 */
+	let trail: string[] = []; // rutas visitadas, alineadas con las entradas del historial
+	let idx = 0; // posición actual dentro de `trail`
+	let replaceNext = false;
+	let onPop: (() => void) | null = null;
+
+	const depth = (p: string) => strip(p).split('/').filter(Boolean).length;
+
+	/** Retrocede `delta` entradas y espera a que la ruta cambie. */
+	function goBack(delta: number) {
+		return new Promise<void>((resolve) => {
+			const done = () => {
+				onPop = null;
+				clearTimeout(timer);
+				resolve();
+			};
+			const timer = setTimeout(done, 2000);
+			onPop = done;
+			history.go(delta);
+		});
+	}
+
+	afterNavigate((nav) => {
+		const path = page.url.pathname;
+		if (nav.type === 'enter' || trail.length === 0) {
+			trail = [path];
+			idx = 0;
+		} else if (nav.type === 'popstate') {
+			idx += nav.delta ?? 0;
+			if (trail[idx] !== path) {
+				// Salto desconocido (por ejemplo, tras recargar): se reinicia el rastro.
+				trail = [path];
+				idx = 0;
+			}
+			onPop?.();
+		} else if (replaceNext) {
+			trail[idx] = path;
+		} else {
+			trail = [...trail.slice(0, idx + 1), path];
+			idx++;
+		}
+		replaceNext = false;
+	});
+
 	// Toda navegación interna (enlaces, botón atrás, goto) pasa por la cortina.
 	beforeNavigate((nav) => {
 		if (busy || !nav.to || nav.willUnload || nav.type === 'leave' || nav.type === 'popstate') return;
@@ -29,7 +79,18 @@
 		nav.cancel();
 		busy = true;
 		const target = findNav(strip(to.pathname));
-		runTransition(target.label, () => goto(to.pathname + to.search + to.hash)).finally(() => {
+		const from = depth(page.url.pathname);
+		const dest = depth(to.pathname);
+
+		let swap: () => Promise<unknown>;
+		const back = dest < from && idx > 0 ? trail.lastIndexOf(to.pathname, idx - 1) : -1;
+		if (back >= 0) {
+			swap = () => goBack(back - idx);
+		} else {
+			replaceNext = dest <= from;
+			swap = () => goto(to.pathname + to.search + to.hash, { replaceState: replaceNext });
+		}
+		runTransition(target.label, swap).finally(() => {
 			busy = false;
 		});
 	});

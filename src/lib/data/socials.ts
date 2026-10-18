@@ -1,5 +1,5 @@
 export type Social = {
-	id: 'github' | 'linkedin' | 'mail';
+	id: 'github' | 'linkedin' | 'mail' | 'cv';
 	label: string;
 	handle: string;
 	url: string;

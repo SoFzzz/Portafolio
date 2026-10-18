@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { base } from '$app/paths';
 	import { kindLabel, type Project } from '$lib/data/projects';
+	import CardFrame from '../atoms/CardFrame.svelte';
 	import Button from '../atoms/Button.svelte';
 	import Tag from '../atoms/Tag.svelte';
 
@@ -9,9 +10,15 @@
 	const cover = $derived(project.shots?.[0]);
 </script>
 
+<!-- svelte-ignore a11y_no_noninteractive_tabindex -->
 <article
-	class="group flex h-full flex-col bg-surface shadow-[6px_6px_0_var(--color-secondary)] transition-transform duration-200 ease-out-expo hover:-translate-y-1 md:shadow-[8px_8px_0_var(--color-secondary)]"
+	data-nav-group
+	tabindex="0"
+	role="group"
+	aria-label="Proyecto {project.title}"
+	class="nav-card relative isolate flex h-full flex-col outline-none shadow-[6px_6px_0_var(--color-secondary)] transition-transform duration-200 ease-out-expo hover:-translate-y-1 md:shadow-[8px_8px_0_var(--color-secondary)]"
 >
+	<CardFrame />
 	<div
 		class="relative flex h-48 items-center justify-center p-4 [clip-path:polygon(0_0,100%_0,100%_92%,90%_100%,0_100%)] md:h-56"
 		style="background-color: {c.bg}; background-image: radial-gradient(circle, {c.dot} 1.4px, transparent 2px); background-size: 10px 10px"

@@ -53,10 +53,20 @@
 		min-height: 100dvh;
 		overflow-x: hidden;
 	}
-	:focus-visible {
+	/* Dentro de <main>, los enlaces/botones/tarjetas que gestiona KeyNav muestran el foco con el
+	   bloque rojo estilo menú (cada componente estiliza :focus-visible y [data-selected]), no con contorno. */
+	:focus-visible:not(
+			#contenido a[href],
+			#contenido button,
+			#contenido [role='button'],
+			#contenido [data-nav-group]
+		) {
 		outline: 3px solid var(--color-accent);
 		outline-offset: 3px;
 		box-shadow: 0 0 0 3px var(--color-primary);
+	}
+	#contenido :is(a[href], button, [role='button'], [data-nav-group]):focus-visible {
+		outline: none;
 	}
 }
 

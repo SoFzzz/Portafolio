@@ -102,15 +102,44 @@ try {
 	};
 	const focusText = () => c.ev(() => document.activeElement?.textContent?.trim().slice(0, 30) ?? '');
 	await goto(base + 'proyectos/');
+	const sel = () => c.ev(() => {
+		const a = document.activeElement;
+		return { group: !!a?.matches('[data-nav-group]'), selected: [...document.querySelectorAll('[data-selected]')].length, selIsActive: a?.hasAttribute('data-selected'), tag: a?.tagName, text: a?.textContent?.trim().slice(0, 20) ?? '', arrow: !!document.querySelector('#contenido svg.text-primary') && getComputedStyle(document.querySelector('#contenido svg.text-primary')).opacity };
+	});
 	await press('ArrowDown', 40);
 	ok((await focusText()).includes('Volver'), 'ArrowDown sin selección → primer elemento (Volver)');
 	await press('ArrowDown', 40);
-	const sel = await c.ev(() => document.activeElement?.closest('main') && document.activeElement.tagName === 'A' && document.activeElement.textContent.trim() !== 'Volver');
-	ok(sel, 'ArrowDown mueve la selección a otro enlace');
+	let s = await sel();
+	ok(s.group && s.selected === 1 && s.selIsActive, 'ArrowDown selecciona una tarjeta entera (data-selected solo en ella)');
+	ok((await c.ev(() => getComputedStyle(document.activeElement).outlineStyle)) === 'none', 'la tarjeta seleccionada no dibuja contorno naranja');
+	await press('Enter', 13);
+	s = await sel();
+	ok(!s.group && s.tag === 'A' && s.text.includes('Ver proyecto') && s.selected === 1, 'Enter en una tarjeta entra y selecciona "Ver proyecto"');
+	ok(Number(s.arrow) === 1, 'en el nivel 2 aparece la flechita');
+	await press('ArrowRight', 39);
+	s = await sel();
+	ok(s.text.includes('Repositorio') || s.text.includes('Ver proyecto'), 'las flechas se mueven entre los botones de la tarjeta');
+	await press('ArrowDown', 40);
+	ok((await sel()).group === false, 'ArrowDown dentro de la tarjeta no salta a otra tarjeta');
+	await press('Escape', 27);
+	s = await sel();
+	ok(s.group && (await path()).endsWith('/proyectos/') && Number(s.arrow || 0) === 0, 'Esc dentro de la tarjeta vuelve a la tarjeta (sin navegar ni flecha)');
+	await press('ArrowRight', 39);
+	s = await sel();
+	ok(s.group && s.selected === 1, 'en el nivel 1 las flechas pasan a otra tarjeta');
+	await press('ArrowLeft', 37);
+	await press('Enter', 13);
+	await press('Enter', 13);
+	await c.sleep(2800);
+	ok(/\/proyectos\/[^/]+\/$/.test(await path()), 'Enter sobre "Ver proyecto" navega al detalle (' + (await path()) + ')');
+	await goto(base + 'proyectos/');
+	await press('ArrowDown', 40);
+	await press('ArrowDown', 40);
 	await press('ArrowUp', 38);
 	ok((await focusText()).includes('Volver'), 'ArrowUp vuelve a Volver');
+	ok((await c.ev(() => getComputedStyle(document.activeElement).outlineStyle)) === 'none', 'Volver seleccionado sin contorno naranja');
 	await press('Enter', 13);
-	await c.sleep(1500);
+	await c.sleep(2800);
 	ok(!(await path()).includes('proyectos'), 'Enter sobre Volver navega al inicio');
 
 	// 4b. Inicio → Proyectos → detalle → Atrás → Atrás
