@@ -2,6 +2,8 @@
 
 Portafolio web inspirado en la **estructura de interacción** de los menús de Atlus.
 
+**Ver en línea:** https://sofzzz.github.io/Portafolio/
+
 Plan, navegación y design system: [`docs/PLAN-PORTAFOLIO.md`](docs/PLAN-PORTAFOLIO.md).
 
 ## Stack
