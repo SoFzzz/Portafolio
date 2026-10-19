@@ -8,7 +8,6 @@ export type Game = {
 	role: string;
 	/** Sistemas del juego (no hay capturas todavía). */
 	features: string[];
-	/** El repositorio es privado: no hay enlaces públicos. */
 	links: { play?: string; repo?: string };
 };
 
@@ -28,5 +27,5 @@ export const game: Game = {
 		'Soporte para mando de Xbox, final con diálogo y créditos.',
 		'Pruebas automatizadas de la lógica en modo headless.'
 	],
-	links: {}
+	links: { repo: 'https://github.com/SoFzzz/Descending-to-my-Heaven' }
 };

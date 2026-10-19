@@ -37,13 +37,16 @@
 			<li><Tag>Godot</Tag></li>
 			<li><Tag>GDScript</Tag></li>
 		</ul>
-		<div class="mt-auto pt-2">
+		<div class="btn-row mt-auto flex flex-wrap gap-3 pt-2">
 			<Button href="{base}/proyectos/descending-to-my-heaven/">
 				Ver proyecto
 				<svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" class="text-highlight" stroke-width="3" stroke-linecap="square"
 					><path d="M5 12h14M13 6l6 6-6 6" /></svg
 				>
 			</Button>
+			{#if game.links.repo}
+				<Button href={game.links.repo} external variant="secondary">Repositorio</Button>
+			{/if}
 		</div>
 	</div>
 </article>
