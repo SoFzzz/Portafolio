@@ -48,29 +48,29 @@
 </a>
 
 <style>
-	/* Estado activo = seleccionado con teclado, hover o foco; sin nada activo, el primero de la lista (como el menú de inicio). */
-	.sl:is(:hover, :focus-visible, :global([data-selected])) .sl-block,
-	:global(ul.sl-list:not(:has(:hover, :focus-visible, [data-selected])) > li:first-child) .sl .sl-block,
-	.sl:is(:hover, :focus-visible, :global([data-selected])) .sl-line,
-	:global(ul.sl-list:not(:has(:hover, :focus-visible, [data-selected])) > li:first-child) .sl .sl-line {
+	/* Estado activo = seleccionado (teclado, Tab o puntero: KeyNav pone data-selected); sin nada activo, el primero de la lista (como el menú de inicio). */
+	.sl:is(:global([data-selected])) .sl-block,
+	:global(ul.sl-list:not(:has([data-selected])) > li:first-child) .sl .sl-block,
+	.sl:is(:global([data-selected])) .sl-line,
+	:global(ul.sl-list:not(:has([data-selected])) > li:first-child) .sl .sl-line {
 		--tw-scale-x: 100%;
 	}
-	.sl:is(:hover, :focus-visible, :global([data-selected])) .sl-text,
-	:global(ul.sl-list:not(:has(:hover, :focus-visible, [data-selected])) > li:first-child) .sl .sl-text {
+	.sl:is(:global([data-selected])) .sl-text,
+	:global(ul.sl-list:not(:has([data-selected])) > li:first-child) .sl .sl-text {
 		transform: translateX(0.5rem);
 	}
-	.sl:is(:hover, :focus-visible, :global([data-selected])) :is(.sl-title, .sl-handle),
-	:global(ul.sl-list:not(:has(:hover, :focus-visible, [data-selected])) > li:first-child) .sl :is(.sl-title, .sl-handle) {
+	.sl:is(:global([data-selected])) :is(.sl-title, .sl-handle),
+	:global(ul.sl-list:not(:has([data-selected])) > li:first-child) .sl :is(.sl-title, .sl-handle) {
 		color: #fff;
 	}
-	.sl:is(:hover, :focus-visible, :global([data-selected])) :is(.sl-icon, .sl-arrow),
-	:global(ul.sl-list:not(:has(:hover, :focus-visible, [data-selected])) > li:first-child) .sl :is(.sl-icon, .sl-arrow) {
+	.sl:is(:global([data-selected])) :is(.sl-icon, .sl-arrow),
+	:global(ul.sl-list:not(:has([data-selected])) > li:first-child) .sl :is(.sl-icon, .sl-arrow) {
 		color: var(--color-highlight);
 	}
 	.sl-line {
 		transition-delay: 75ms;
 	}
-	.sl:not(:is(:hover, :focus-visible, :global([data-selected]))) .sl-line {
+	.sl:not(:is(:global([data-selected]))) .sl-line {
 		transition-delay: 0ms;
 	}
 </style>

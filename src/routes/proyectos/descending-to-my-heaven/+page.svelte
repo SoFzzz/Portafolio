@@ -60,7 +60,7 @@
 			</dl>
 
 			{#if game.links.play || game.links.repo}
-				<div class="flex flex-wrap gap-4">
+				<div class="btn-row flex flex-wrap gap-4">
 					{#if game.links.play}<Button href={game.links.play} external>Jugar</Button>{/if}
 					{#if game.links.repo}<Button href={game.links.repo} variant="secondary" external>Repositorio</Button>{/if}
 				</div>

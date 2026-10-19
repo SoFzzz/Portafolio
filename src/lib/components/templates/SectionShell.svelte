@@ -47,12 +47,11 @@
 			href="{base}{backHref}"
 			class="group relative inline-flex min-h-11 items-center gap-2.5 bg-primary pr-5 pl-3.5 text-sm font-semibold tracking-widest text-white uppercase outline-none [clip-path:polygon(0_50%,14px_0,100%_0,100%_100%,14px_100%)]"
 		>
-			<span aria-hidden="true" class="absolute inset-0 origin-left scale-x-0 bg-secondary transition-transform duration-200 ease-snap group-hover:scale-x-100 group-focus-visible:scale-x-100 group-data-[selected]:scale-x-100"></span>
-			<span class="relative inline-flex items-center gap-2.5 transition-transform duration-200 ease-out-expo group-hover:translate-x-1.5 group-focus-visible:translate-x-1.5 group-data-[selected]:translate-x-1.5">
+			<span class="relative inline-flex items-center gap-2.5 transition-transform duration-200 ease-out-expo group-data-[selected]:translate-x-1.5">
 				<svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#F2D479" stroke-width="3" stroke-linecap="square"><path d="M15 5 8 12l7 7" /></svg>
 				Volver
 			</span>
-			<span aria-hidden="true" class="absolute right-5 bottom-1 left-6 h-0.5 origin-left scale-x-0 bg-accent transition-transform duration-300 ease-out-expo group-hover:scale-x-100 group-hover:delay-75 group-focus-visible:scale-x-100 group-focus-visible:delay-75 group-data-[selected]:scale-x-100 group-data-[selected]:delay-75"></span>
+			<span aria-hidden="true" class="absolute right-5 bottom-1 left-6 h-0.5 origin-left scale-x-0 bg-accent transition-transform duration-300 ease-out-expo group-data-[selected]:scale-x-100 group-data-[selected]:delay-75"></span>
 		</a>
 	</header>
 

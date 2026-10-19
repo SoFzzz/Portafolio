@@ -12,7 +12,7 @@
 	tabindex="0"
 	role="group"
 	aria-label="Proyecto {game.title}"
-	class="nav-card relative isolate flex h-full flex-col outline-none shadow-[6px_6px_0_var(--color-secondary)] transition-transform duration-200 ease-out-expo hover:-translate-y-1 md:shadow-[8px_8px_0_var(--color-secondary)]"
+	class="nav-card relative isolate flex h-full flex-col outline-none"
 >
 	<CardFrame />
 	<div

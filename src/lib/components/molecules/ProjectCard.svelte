@@ -16,7 +16,7 @@
 	tabindex="0"
 	role="group"
 	aria-label="Proyecto {project.title}"
-	class="nav-card relative isolate flex h-full flex-col outline-none shadow-[6px_6px_0_var(--color-secondary)] transition-transform duration-200 ease-out-expo hover:-translate-y-1 md:shadow-[8px_8px_0_var(--color-secondary)]"
+	class="nav-card relative isolate flex h-full flex-col outline-none"
 >
 	<CardFrame />
 	<div
@@ -74,7 +74,7 @@
 				<li><Tag>{item}</Tag></li>
 			{/each}
 		</ul>
-		<div class="mt-auto flex flex-wrap gap-3 pt-2">
+		<div class="btn-row mt-auto flex flex-wrap gap-3 pt-2">
 			<Button href="{base}/proyectos/{project.slug}/">
 				Ver proyecto
 				<svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" class="text-highlight" stroke-width="3" stroke-linecap="square"

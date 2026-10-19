@@ -142,6 +142,29 @@ try {
 	await c.sleep(2800);
 	ok(!(await path()).includes('proyectos'), 'Enter sobre Volver navega al inicio');
 
+	// 4f. Una sola selección: gana el último que se use (puntero o flechas)
+	await goto(base + 'proyectos/');
+	const cards = () => c.ev(() => [...document.querySelectorAll('[data-nav-group]')].map((e) => { const r = e.getBoundingClientRect(); return { x: r.left + 40, y: Math.min(r.top + 30, innerHeight - 20) }; }));
+	const nSel = () => c.ev(() => ({ n: document.querySelectorAll('[data-nav-group][data-selected]').length, all: document.querySelectorAll('[data-selected]').length, idx: [...document.querySelectorAll('[data-nav-group]')].findIndex((e) => e.hasAttribute('data-selected')) }));
+	const mouse = async (x, y) => { await c.send('Input.dispatchMouseEvent', { type: 'mouseMoved', x: x - 5, y }); await c.send('Input.dispatchMouseEvent', { type: 'mouseMoved', x, y }); await c.sleep(300); };
+	await press('ArrowDown', 40);
+	await press('ArrowDown', 40);
+	await press('ArrowRight', 39);
+	const before = await nSel();
+	const pts = await cards();
+	const target = before.idx === 0 ? 1 : 0;
+	await mouse(pts[target].x, pts[target].y);
+	let ns = await nSel();
+	ok(ns.n === 1 && ns.all === 1 && ns.idx === target, `ratón sobre la tarjeta ${target} tras flechas en la ${before.idx}: una sola selección y es la del ratón (${JSON.stringify(ns)})`);
+	await press('ArrowRight', 39);
+	ns = await nSel();
+	ok(ns.n === 1 && ns.all === 1, 'ArrowRight tras el ratón: sigue habiendo una sola selección');
+	const pts2 = await cards();
+	await mouse(pts2[ns.idx === 0 ? 1 : 0].x, pts2[ns.idx === 0 ? 1 : 0].y);
+	await press('ArrowDown', 40);
+	ns = await nSel();
+	ok(ns.all === 1, 'ratón y luego flechas: una sola selección');
+
 	// 4b. Inicio → Proyectos → detalle → Atrás → Atrás
 	await goto(base);
 	await c.ev(() => document.querySelector('nav a[href*="proyectos"]').click());

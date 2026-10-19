@@ -7,8 +7,9 @@
 	//     nivel 1. Enter sobre ella entra (selecciona su primer enlace/botón); dentro, las flechas solo
 	//     recorren sus controles y Esc vuelve a la tarjeta. Esc en el nivel 1 vuelve atrás (SectionShell).
 	//   · Enter activa el elemento seleccionado (nativo: tiene el foco real).
-	// La selección es el foco real + el atributo `data-selected` (vacío) en el elemento. Los componentes
-	// estilizan [data-selected], :hover y :focus-visible igual (bloque rojo estilo menú del inicio).
+	// La selección es el atributo `data-selected` (vacío): única fuente de verdad del resaltado. La ponen las flechas
+	// (con foco real), Tab (al enfocar) y el puntero (al moverse sobre un elemento, sin foco real); gana el último
+	// que se use. Los componentes estilizan solo [data-selected] (bloque rojo estilo menú del inicio), no :hover.
 	// En el inicio las teclas las gestiona MainMenu; aquí solo se muestra la ayuda.
 	import { page } from '$app/state';
 	import { animate, stagger } from 'animejs';
@@ -30,6 +31,13 @@
 
 	const main = () => document.getElementById('contenido');
 	const visible = (el: HTMLElement) => el.getClientRects().length > 0 && getComputedStyle(el).visibility !== 'hidden';
+	/** Elemento "actual": el seleccionado (si lo puso el puntero el foco real puede estar en otro lado) o el foco. */
+	function cursor(): HTMLElement | null {
+		const s = main()?.querySelector<HTMLElement>('[data-selected]');
+		return s ?? (document.activeElement as HTMLElement | null);
+	}
+	let lastX = -1;
+	let lastY = -1;
 	const groupOf = (el: Element | null) => (el?.closest(GROUP) as HTMLElement | null) ?? null;
 
 	/** Nivel 1: grupos (tarjetas) y controles sueltos. Sin grupos, todos los controles. */
@@ -94,7 +102,17 @@
 	function onKey(e: KeyboardEvent) {
 		if (isHome || e.defaultPrevented || e.ctrlKey || e.metaKey || e.altKey || e.shiftKey) return;
 		if (e.target instanceof HTMLElement && e.target.closest('input, textarea, select, [contenteditable]')) return;
-		const a = document.activeElement as HTMLElement | null;
+		const a = cursor();
+
+		// Selección puesta por el puntero (sin foco real): Enter activa el elemento seleccionado
+		if (e.key === 'Enter' && a && a !== document.activeElement && a.hasAttribute('data-selected')) {
+			e.preventDefault();
+			if (a.matches(GROUP)) {
+				const first = innerItems(a)[0];
+				if (first) select(first);
+			} else a.click();
+			return;
+		}
 
 		// Enter sobre una tarjeta: entra a sus controles
 		if (e.key === 'Enter' && a && a.matches(GROUP) && e.target === a) {
@@ -122,7 +140,7 @@
 		const onItem = a && list.includes(a);
 		if (!onItem) {
 			// Foco en el cuerpo: primera pulsación = primer elemento. Foco en otro control (p. ej. el botón de animaciones): no se toca.
-			if (a && a !== document.body) return;
+			if (a && a !== document.body && !a.hasAttribute('data-selected')) return;
 			e.preventDefault();
 			select(list[0]);
 			return;
@@ -137,7 +155,7 @@
 	/** Esc dentro de una tarjeta vuelve a la tarjeta. En captura para que SectionShell (volver atrás) no lo reciba. */
 	function onEscCapture(e: KeyboardEvent) {
 		if (isHome || e.key !== 'Escape' || e.ctrlKey || e.metaKey || e.altKey) return;
-		const a = document.activeElement as HTMLElement | null;
+		const a = cursor();
 		const g = a ? groupOf(a) : null;
 		if (!g || a === g || !main()?.contains(g)) return;
 		e.preventDefault();
@@ -168,7 +186,8 @@
 		const el = e.target as HTMLElement;
 		if (isHome || !el.matches?.(`${SELECTOR}, ${GROUP}`) || !main()?.contains(el)) return;
 		// Foco por ratón: sin selección. Foco por teclado (Tab, flechas): selección visible.
-		if (!el.matches(':focus-visible')) return hide();
+		// (la selección actual, que puede venir del puntero, se conserva)
+		if (!el.matches(':focus-visible')) return;
 		mark(el);
 		if (el.matches(GROUP) || !groupOf(el)) {
 			current = null;
@@ -183,6 +202,23 @@
 		current = null;
 		if (arrow) arrow.style.opacity = '0';
 		mark(null);
+	}
+
+	/** El puntero manda si es el último en usarse: selecciona (sin foco real) el elemento sobre el que se mueve. */
+	function onPointerMove(e: PointerEvent) {
+		if (isHome || e.pointerType === 'touch') return;
+		// Chrome emite movimientos sintéticos al desplazar la página: sin cambio de coordenadas no cuentan
+		if (e.clientX === lastX && e.clientY === lastY) return;
+		lastX = e.clientX;
+		lastY = e.clientY;
+		const m = main();
+		const t = e.target as Element | null;
+		const el = t?.closest<HTMLElement>(`${SELECTOR}, ${GROUP}`);
+		if (!m || !el || !m.contains(el) || el.hasAttribute('data-selected')) return;
+		mark(el);
+		// La flechita del nivel 2 es solo del teclado
+		current = null;
+		if (arrow) arrow.style.opacity = '0';
 	}
 
 	function onFocusOut(e: FocusEvent) {
@@ -223,7 +259,7 @@
 	});
 </script>
 
-<svelte:window onkeydown={onKey} onfocusin={onFocusIn} onfocusout={onFocusOut} onpointerdown={hide} />
+<svelte:window onkeydown={onKey} onfocusin={onFocusIn} onfocusout={onFocusOut} onpointermove={onPointerMove} />
 
 <!-- Flechita del nivel 2 (dentro de una tarjeta): dentro de <main> para que se desplace con la página -->
 <svg
